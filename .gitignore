@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Next.js & Build outputs
+.next/
+dist/
+build/
+tsconfig.tsbuildinfo
+
+# Artifacts & Local Tarballs
+.artifacts/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Storage & Uploaded Media (runtime test artifacts)
+storage/
+public/media/
+testing-app/storage/
+testing-app/public/media/
+
+# System & Editor files
+.DS_Store
+.vscode/
+*.log

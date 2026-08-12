@@ -1,0 +1,56 @@
+{
+  "name": "@nan0web/payload-self-storage",
+  "version": "0.1.0",
+  "description": "Self-hosted filesystem storage adapter and backup foundation for Payload CMS.",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nan0web/payload-cms.git",
+    "directory": "packages/payload-self-storage"
+  },
+  "bugs": {
+    "url": "https://github.com/nan0web/payload-cms/issues"
+  },
+  "homepage": "https://github.com/nan0web/payload-cms/tree/main/packages/payload-self-storage#readme",
+  "keywords": [
+    "payload",
+    "payloadcms",
+    "storage",
+    "filesystem",
+    "backup"
+  ],
+  "files": [
+    "src",
+    "test",
+    "releases",
+    "docs",
+    "README.md",
+    "LICENSE"
+  ],
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./storage": "./src/storage/index.js",
+    "./payload": "./src/payload/index.js"
+  },
+  "scripts": {
+    "test:releases": "node --test --test-timeout=9999 'test/**/*.test.js'",
+    "test": "node --test --test-timeout=9999 'test/**/*.test.js'",
+    "test:e2e": "node --test --test-name-pattern=e2e",
+    "pack:check": "pnpm pack --pack-destination .artifacts",
+    "pack:local": "pnpm pack --pack-destination .artifacts",
+    "knip": "pnpm dlx knip --production",
+    "audit": "pnpm audit",
+    "test:all": "pnpm test && pnpm knip && pnpm audit"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "peerDependencies": {
+    "sharp": ">=0.33.0"
+  },
+  "devDependencies": {
+    "knip": "^5.61.0"
+  }
+}

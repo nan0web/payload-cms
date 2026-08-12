@@ -1,0 +1,17 @@
+{
+  "name": "@nan0web/payload-cms",
+  "version": "0.1.0",
+  "description": "Monorepo workspace for @nan0web/payload-* plugins suite and testing sandbox for Payload CMS 3.x.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "pack": "node bin/pack.js",
+    "pack:all": "node bin/pack.js --all",
+    "publish:all": "pnpm --filter \"@nan0web/payload-*\" publish --access public",
+    "check:context": "node scripts/check-llm-context.js",
+    "build:llms-full": "node scripts/build-llm-context.js"
+  },
+  "devDependencies": {
+    "@nan0web/ui-cli": "^3.2.0"
+  }
+}

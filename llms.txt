@@ -1,0 +1,22 @@
+# @nan0web/payload-cms Monorepo
+
+> Monorepo ecosystem for Payload CMS 3.x plugins and applications (@nan0web/payload-*). Built with pure ESM, Model-as-Schema architecture, DevSecOps principles, and OLMUI (One Logic — Multiple User Interfaces).
+
+## Core Documentation & Agent Rules
+
+- [AGENTS.md](docs/AGENTS.md): Main agent system prompt, Architechnomag persona, DevSecOps rules, and linguistic sovereignty.
+
+## Workflows & Instructions
+
+- [Workflows Index](docs/uk/workflows/README.md): Index of localized workflows.
+- [architechnomag](docs/uk/workflows/architechnomag.md)
+- [codebase](docs/uk/workflows/codebase.md)
+- [payload-cms-models](docs/uk/workflows/payload-cms-models.md)
+- [release](docs/uk/workflows/release.md)
+
+## Packages & Applications
+
+- [packages/payload-keyboard-accessibility](./packages/payload-keyboard-accessibility)
+- [packages/payload-self-storage](./packages/payload-self-storage)
+- [packages/payload-signin-theme-state](./packages/payload-signin-theme-state)
+- [testing-app](./testing-app)

@@ -1,0 +1,9 @@
+packages:
+  - 'packages/*'
+  - 'testing-app'
+
+onlyBuiltDependencies:
+  - esbuild
+  - sharp
+  - unrs-resolver
+  - workerd

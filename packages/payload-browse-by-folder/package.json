@@ -1,0 +1,39 @@
+{
+  "name": "@nan0web/payload-browse-by-folder",
+  "version": "0.1.0",
+  "description": "Configurable Browse by Folder view and columns plugin for Payload CMS Admin.",
+  "type": "module",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nan0web/payload-cms.git",
+    "directory": "packages/payload-browse-by-folder"
+  },
+  "bugs": {
+    "url": "https://github.com/nan0web/payload-cms/issues"
+  },
+  "homepage": "https://github.com/nan0web/payload-cms/tree/main/packages/payload-browse-by-folder#readme",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./admin": "./src/admin.js"
+  },
+  "files": ["src", "README.md", "LICENSE"],
+  "scripts": {
+    "knip": "pnpm dlx knip --production",
+    "test:releases": "node --test --test-timeout=9999 'tests/**/*.test.js'",
+    "test": "node --test --test-timeout=9999 'tests/**/*.test.js'",
+    "test:e2e": "node --test --test-name-pattern=e2e",
+    "pack:check": "pnpm pack --pack-destination .artifacts",
+    "pack:local": "pnpm pack --pack-destination .artifacts",
+    "test:all": "pnpm test && pnpm knip && pnpm audit"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "knip": "^5.61.0"
+  },
+  "peerDependencies": {
+    "payload": ">=3.0.0",
+    "react": ">=18.0.0"
+  }
+}

@@ -1,0 +1,10 @@
+/* Default Dark Color Scheme to prevent white flash before JS hydration */
+html, body {
+  background-color: #0f0f10 !important;
+  color-scheme: dark;
+}
+
+html[data-theme="light"], html[data-theme="light"] body {
+  background-color: #f3f4f6 !important;
+  color-scheme: light;
+}
