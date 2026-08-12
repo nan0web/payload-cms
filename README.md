@@ -2,21 +2,65 @@
 
 Official workspace for `@nan0web/payload-*` plugins ecosystem for **Payload CMS 3.x**.
 
-## 📦 Packages in Ecosystem
+## 📦 Ecosystem Packages (Published on NPM)
 
-| Package | Description | Version | Status |
-| :--- | :--- | :---: | :---: |
-| [`@nan0web/payload-self-storage`](packages/payload-self-storage) | Physical file storage, WebP conversion, folder hierarchy, backend-neutral backup/restore | `v0.1.0` | Ready |
-| [`@nan0web/payload-browse-by-folder`](packages/payload-browse-by-folder) | Tree view navigation for folder-based media browsing in Admin UI | `v0.1.0` | Ready |
-| [`@nan0web/payload-self-manual`](packages/payload-self-manual) | Contextual Markdown documentation viewer (`⌘/` / `Ctrl+/`) with Mermaid support | `v0.1.0` | Ready |
-| [`@nan0web/payload-signin-theme-state`](packages/payload-signin-theme-state) | Admin & Login theme persistence (`localStorage`) without white flash | `v0.1.0` | Ready |
-| [`@nan0web/payloadcms-keyboard-accessibility`](packages/payload-keyboard-accessibility) | Predictable keyboard shortcuts (`Cmd+S`, `Cmd+Enter`) & focus scope control | `v0.1.1` | Published |
+| Package | Description | Version | NPM Link | Status |
+| :--- | :--- | :---: | :---: | :---: |
+| [`@nan0web/payload-self-storage`](packages/payload-self-storage) | Physical file storage, WebP conversion, folder hierarchy, backend-neutral backup | `v0.1.0` | [npm](https://www.npmjs.com/package/@nan0web/payload-self-storage) | 🟢 Published |
+| [`@nan0web/payload-browse-by-folder`](packages/payload-browse-by-folder) | Tree view navigation for folder-based media browsing in Admin UI | `v0.1.0` | [npm](https://www.npmjs.com/package/@nan0web/payload-browse-by-folder) | 🟢 Published |
+| [`@nan0web/payload-self-manual`](packages/payload-self-manual) | Contextual Markdown documentation viewer (`⌘/` / `Ctrl+/`) with Mermaid support | `v0.1.0` | [npm](https://www.npmjs.com/package/@nan0web/payload-self-manual) | 🟢 Published |
+| [`@nan0web/payload-signin-theme-state`](packages/payload-signin-theme-state) | Admin & Login theme persistence (`localStorage`) without white flash | `v0.1.0` | [npm](https://www.npmjs.com/package/@nan0web/payload-signin-theme-state) | 🟢 Published |
+| [`@nan0web/payloadcms-keyboard-accessibility`](packages/payload-keyboard-accessibility) | Predictable keyboard shortcuts (`Cmd+S`, `Cmd+Enter`) & focus scope control | `v0.1.1` | [npm](https://www.npmjs.com/package/@nan0web/payloadcms-keyboard-accessibility) | 🟢 Published |
 
 ---
 
-## ⚡ Quick Start
+## 📥 Installation & Setup in Any Payload 3.x Application
 
-### 1. Install dependencies
+### 1. Install all plugins from NPM:
+
+```bash
+pnpm add @nan0web/payload-self-storage \
+         @nan0web/payload-browse-by-folder \
+         @nan0web/payload-self-manual \
+         @nan0web/payload-signin-theme-state \
+         @nan0web/payloadcms-keyboard-accessibility
+```
+
+### 2. Configure `src/payload.config.ts`:
+
+```typescript
+import { buildConfig } from 'payload'
+import { payloadSelfStorage } from '@nan0web/payload-self-storage'
+import { payloadBrowseByFolder } from '@nan0web/payload-browse-by-folder'
+import { payloadSelfManual } from '@nan0web/payload-self-manual'
+import { payloadSigninThemeState } from '@nan0web/payload-signin-theme-state'
+import { payloadKeyboardFocus } from '@nan0web/payloadcms-keyboard-accessibility'
+
+// Config transform wrapper for self-storage & WebP conversion
+const withStorage = payloadSelfStorage({
+  rootDir: './storage',
+  publicUrlPrefix: '/media',
+  collections: ['media'],
+})
+
+export default withStorage(
+  buildConfig({
+    // Your Payload CMS configuration
+    plugins: [
+      payloadBrowseByFolder({ collections: ['media'] }),
+      payloadSelfManual({ docsDir: 'docs', defaultLocale: 'uk' }),
+      payloadSigninThemeState({ storageKey: 'app-theme' }),
+      payloadKeyboardFocus(),
+    ],
+  })
+)
+```
+
+---
+
+## ⚡ Monorepo Local Development
+
+### 1. Install workspace dependencies
 ```bash
 pnpm install
 ```
@@ -31,7 +75,7 @@ pnpm pack:all
 pnpm pack:all && pnpm --filter testing-app dev
 ```
 
-### 4. Publish all packages to NPM
+### 4. Publish updated packages to NPM
 ```bash
 pnpm publish:all
 ```
