@@ -6,7 +6,6 @@ import { fileURLToPath } from 'node:url'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const rootDir = path.resolve(__dirname, '..')
 const packagesDir = path.join(rootDir, 'packages')
-const testingAppDir = path.join(rootDir, 'testing-app')
 
 function getPackages() {
   if (!fs.existsSync(packagesDir)) return []
@@ -30,48 +29,25 @@ import { promisify } from 'node:util'
 
 const execAsync = promisify(exec)
 
-async function packPackages(selectedPackages) {
+async function buildPackages(selectedPackages) {
   if (!selectedPackages || selectedPackages.length === 0) {
     console.log('⚠️ No packages selected.')
     return
   }
 
   const validPackages = selectedPackages.filter((pkg) => pkg && pkg.pkgName)
-  console.log(`\n📦 Packing ${validPackages.length} package(s) in parallel...`)
+  console.log(`\n📦 Building ${validPackages.length} package(s) in parallel...`)
 
-  // Step 1: Run `pnpm pack:local` in parallel for all selected packages
+  // Validate each package bundle (no build step — these are pure ESM)
   await Promise.all(
     validPackages.map(async (pkg) => {
-      console.log(`🔨 [${pkg.pkgName}] Building & Packing...`)
-      await execAsync('pnpm pack:local', { cwd: pkg.path })
-      console.log(`✅ [${pkg.pkgName}] Packed!`)
+      console.log(`🔨 [${pkg.pkgName}] Checking...`)
+      await execAsync('pnpm pack:check', { cwd: pkg.path })
+      console.log(`✅ [${pkg.pkgName}] OK`)
     })
   )
 
-  // Step 2: Batch install all .tgz artifacts into testing-app at once
-  if (fs.existsSync(testingAppDir)) {
-    const relPaths = validPackages
-      .map((pkg) => {
-        const artifactName = `${pkg.pkgName.replace(/^@/, '').replace('/', '-')}-${pkg.version}.tgz`
-        const artifactPath = path.join(pkg.path, '.artifacts', artifactName)
-        return fs.existsSync(artifactPath) ? path.relative(testingAppDir, artifactPath) : null
-      })
-      .filter(Boolean)
-
-    if (relPaths.length > 0) {
-      console.log(`\n📥 Installing ${relPaths.length} artifact(s) into testing-app...`)
-      execSync(`pnpm add ${relPaths.join(' ')}`, { cwd: testingAppDir, stdio: 'inherit' })
-    }
-
-    console.log(`\n🗺️ Regenerating importMap for testing-app...`)
-    try {
-      execSync('pnpm generate:importmap', { cwd: testingAppDir, stdio: 'inherit' })
-    } catch {
-      console.log('⚠️ Could not run pnpm generate:importmap automatically.')
-    }
-  }
-
-  console.log('\n✨ All selected packages packed and updated in testing-app!')
+  console.log('\n✨ All packages validated!')
 }
 
 async function main() {
@@ -85,7 +61,7 @@ async function main() {
   const isAll = process.argv.includes('--all')
 
   if (isAll) {
-    await packPackages(packages)
+    await buildPackages(packages)
     return
   }
 
@@ -98,7 +74,7 @@ async function main() {
       console.log(`⚠️ Пакет(и) "${args.join(', ')}" не знайдено. Доступні: ${packages.map((p) => p.dirName).join(', ')}`)
       return
     }
-    await packPackages(selected)
+    await buildPackages(selected)
     return
   }
 
@@ -127,7 +103,7 @@ async function main() {
     const hasAll = selectedList.some((item) => item && item.isAll)
     const selectedPkgs = hasAll ? packages : selectedList.filter((item) => item && !item.isAll)
 
-    await packPackages(selectedPkgs)
+    await buildPackages(selectedPkgs)
   } catch (err) {
     if (err?.name === 'CancelError' || err?.cancelled) {
       console.log('\nСкасовано.')

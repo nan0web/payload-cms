@@ -22,11 +22,11 @@
     "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts"
   },
   "dependencies": {
-    "@nan0web/payload-browse-by-folder": "file:../packages/payload-browse-by-folder/.artifacts/nan0web-payload-browse-by-folder-0.1.0.tgz",
-    "@nan0web/payload-self-manual": "file:../packages/payload-self-manual/.artifacts/nan0web-payload-self-manual-0.1.0.tgz",
-    "@nan0web/payload-self-storage": "file:../packages/payload-self-storage/.artifacts/nan0web-payload-self-storage-0.1.0.tgz",
-    "@nan0web/payload-signin-theme-state": "file:../packages/payload-signin-theme-state/.artifacts/nan0web-payload-signin-theme-state-0.1.0.tgz",
-    "@nan0web/payloadcms-keyboard-accessibility": "file:../packages/payload-keyboard-accessibility/.artifacts/nan0web-payloadcms-keyboard-accessibility-0.1.1.tgz",
+    "@nan0web/payload-browse-by-folder": "workspace:*",
+    "@nan0web/payload-self-manual": "workspace:*",
+    "@nan0web/payload-self-storage": "workspace:*",
+    "@nan0web/payload-signin-theme-state": "workspace:*",
+    "@nan0web/payloadcms-keyboard-accessibility": "workspace:*",
     "@payloadcms/admin-bar": "3.87.1",
     "@payloadcms/db-postgres": "3.87.1",
     "@payloadcms/live-preview-react": "3.87.1",
@@ -86,12 +86,5 @@
   "engines": {
     "node": "^18.20.2 || >=20.9.0",
     "pnpm": "^9 || ^10 || ^11"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "sharp",
-      "esbuild",
-      "unrs-resolver"
-    ]
   }
 }
