@@ -1,0 +1,460 @@
+/* SelfManual Modal & Help Styles */
+.self-manual-btn-help {
+	align-items: center;
+	background: var(--theme-elevation-100, #1e1e20);
+	border: 1px solid var(--theme-elevation-300, #333);
+	border-radius: 50%;
+	color: var(--theme-text, #fff);
+	cursor: pointer;
+	display: inline-flex;
+	font-size: 1rem;
+	font-weight: 700;
+	height: 2.125rem;
+	justify-content: center;
+	line-height: 1;
+	margin: 0 0.5rem;
+	width: 2.125rem;
+	transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.self-manual-btn-help:hover {
+	background: var(--theme-elevation-200, #27272a);
+	border-color: var(--theme-elevation-400, #52525b);
+}
+
+.self-manual-overlay {
+	align-items: center;
+	background: rgba(0, 0, 0, 0.75);
+	backdrop-filter: blur(6px);
+	display: flex;
+	inset: 0;
+	justify-content: center;
+	padding: 1.5rem;
+	position: fixed;
+	z-index: 9999;
+}
+
+.self-manual-modal {
+	background: var(--theme-bg, #121214);
+	border: 1px solid var(--theme-elevation-200, #27272a);
+	border-radius: 0.5rem;
+	box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.5);
+	display: flex;
+	flex-direction: row;
+	height: 85vh;
+	max-width: 68.75rem;
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+}
+
+.self-manual-sidebar {
+	background: var(--theme-elevation-50, #18181b);
+	border-right: 1px solid var(--theme-elevation-200, #27272a);
+	display: flex;
+	flex-direction: column;
+	padding: 1rem;
+	width: 17.5rem;
+}
+
+.self-manual-search-box {
+	margin-bottom: 0.75rem;
+}
+
+.self-manual-search-input {
+	background: var(--theme-elevation-100, #202023);
+	border: 1px solid var(--theme-elevation-200, #27272a);
+	border-radius: 0.25rem;
+	color: var(--theme-text, #fff);
+	font-size: 0.8125rem;
+	padding: 0.5rem 0.75rem;
+	width: 100%;
+	outline: none;
+}
+
+.self-manual-search-input:focus {
+	border-color: var(--theme-elevation-400, #52525b);
+}
+
+.self-manual-nav-header {
+	font-size: 0.6875rem;
+	font-weight: 600;
+	color: var(--theme-elevation-500, #888);
+	text-transform: uppercase;
+	margin-bottom: 0.5rem;
+}
+
+.self-manual-nav-item {
+	background: transparent;
+	border: 0;
+	border-radius: 0.25rem;
+	color: var(--theme-text, #ccc);
+	cursor: pointer;
+	display: block;
+	font-size: 0.8125rem;
+	font-weight: 400;
+	margin-bottom: 0.25rem;
+	padding: 0.5rem 0.625rem;
+	text-align: left;
+	width: 100%;
+	transition: background 0.12s ease, color 0.12s ease;
+}
+
+.self-manual-nav-item:hover {
+	background: var(--theme-elevation-100, #202023);
+}
+
+.self-manual-nav-item--active {
+	background: var(--theme-elevation-200, #27272a);
+	color: var(--theme-success, #16a34a);
+	font-weight: 600;
+}
+
+.self-manual-content {
+	flex: 1;
+	min-width: 0;
+	overflow-y: auto;
+	overflow-x: hidden;
+	padding: 2rem 2.5rem;
+	position: relative;
+	background: var(--theme-bg);
+}
+
+/* Rich Markdown Typography & Spacing */
+.self-manual-article {
+	color: var(--theme-text);
+	font-size: 0.9375rem;
+	line-height: 1.7;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+	word-break: normal;
+	white-space: normal;
+}
+
+.self-manual-article * {
+	white-space: normal;
+}
+
+.self-manual-article pre,
+.self-manual-article pre *,
+.self-manual-article code {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.self-manual-article h1 {
+	color: var(--theme-text);
+	font-size: 1.75rem;
+	font-weight: 700;
+	line-height: 1.25;
+	margin-top: 0;
+	margin-bottom: 1.25rem;
+	border-bottom: 1px solid var(--theme-elevation-200);
+	padding-bottom: 0.5rem;
+	white-space: normal;
+}
+
+.self-manual-article h2 {
+	color: var(--theme-text);
+	font-size: 1.25rem;
+	font-weight: 600;
+	line-height: 1.35;
+	margin-top: 1.75rem;
+	margin-bottom: 0.75rem;
+}
+
+.self-manual-article h3 {
+	color: var(--theme-text);
+	font-size: 1.0625rem;
+	font-weight: 600;
+	line-height: 1.4;
+	margin-top: 1.5rem;
+	margin-bottom: 0.5rem;
+}
+
+.self-manual-article p {
+	margin-top: 0;
+	margin-bottom: 1rem;
+	color: var(--theme-text);
+}
+
+.self-manual-article ul,
+.self-manual-article ol {
+	margin-top: 0;
+	margin-bottom: 1.25rem;
+	padding-left: 1.5rem;
+}
+
+.self-manual-article li {
+	margin-bottom: 0.375rem;
+	color: var(--theme-text);
+}
+
+.self-manual-article code {
+	background: var(--theme-elevation-100);
+	border: 1px solid var(--theme-elevation-200);
+	border-radius: 0.25rem;
+	color: var(--theme-warning-text, var(--theme-warning, #d97706));
+	font-family: monospace;
+	font-size: 0.8125rem;
+	padding: 0.125rem 0.375rem;
+}
+
+.self-manual-article pre {
+	background: var(--theme-elevation-50);
+	border: 1px solid var(--theme-elevation-200);
+	border-radius: 0.375rem;
+	padding: 1rem;
+	margin: 1rem 0 1.25rem;
+	overflow-x: auto;
+}
+
+.self-manual-article pre code {
+	background: transparent;
+	border: none;
+	color: var(--theme-text);
+	padding: 0;
+}
+
+.self-manual-article a {
+	color: var(--theme-primary, #2563eb);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.self-manual-article a:hover {
+	color: var(--theme-primary-hover, #1d4ed8);
+}
+
+.self-manual-btn-close {
+	background: transparent;
+	border: 0;
+	color: var(--theme-elevation-500);
+	cursor: pointer;
+	font-size: 1.5rem;
+	line-height: 1;
+	position: absolute;
+	right: 1.25rem;
+	top: 1rem;
+}
+
+.self-manual-btn-close:hover {
+	color: var(--theme-text);
+}
+
+.self-manual-loading {
+	color: var(--theme-elevation-500);
+}
+
+.self-manual-tabs {
+	display: flex;
+	gap: 0.5rem;
+	border-bottom: 1px solid var(--theme-elevation-200);
+	margin-bottom: 1.5rem;
+	padding-bottom: 0.5rem;
+	overflow-x: auto;
+}
+
+.self-manual-tab {
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: 0.25rem;
+	color: var(--theme-elevation-600);
+	cursor: pointer;
+	font-size: 0.75rem;
+	font-weight: 400;
+	padding: 0.375rem 0.75rem;
+	transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+}
+
+.self-manual-tab:hover {
+	color: var(--theme-text);
+}
+
+.self-manual-tab--active {
+	background: var(--theme-elevation-150, var(--theme-elevation-200));
+	border-color: var(--theme-elevation-400);
+	color: var(--theme-text);
+	font-weight: 600;
+}
+
+.self-manual-block-item {
+	border-bottom: 1px dashed var(--theme-elevation-200);
+	margin-bottom: 2rem;
+	padding-bottom: 1.5rem;
+}
+
+.self-manual-block-item:last-child {
+	border-bottom: none;
+}
+
+.self-manual-source-badge {
+	display: inline-block;
+	background: var(--theme-elevation-100);
+	border: 1px solid var(--theme-elevation-300);
+	border-radius: 0.25rem;
+	font-size: 0.6875rem;
+	font-weight: 600;
+	color: var(--theme-elevation-600);
+	padding: 0.125rem 0.5rem;
+	margin-bottom: 0.75rem;
+	text-transform: uppercase;
+}
+
+/* Ecosystem & Plugins View Styles */
+.self-manual-nav-item--system {
+	color: var(--theme-warning, #d97706);
+	font-weight: 600;
+	border: 1px solid rgba(217, 119, 6, 0.35);
+	background: rgba(217, 119, 6, 0.08);
+	margin-bottom: 0.75rem;
+}
+
+.self-manual-nav-item--system:hover {
+	background: rgba(217, 119, 6, 0.16);
+	border-color: rgba(217, 119, 6, 0.5);
+}
+
+.self-manual-plugins-view {
+	padding: 0.5rem 0;
+}
+
+.self-manual-plugins-title {
+	font-size: 1.35rem;
+	font-weight: 700;
+	margin-bottom: 1.25rem;
+	color: var(--theme-text);
+}
+
+.self-manual-plugins-table-container {
+	border: 1px solid var(--theme-elevation-200);
+	border-radius: 0.375rem;
+	overflow: hidden;
+	background: var(--theme-elevation-50);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.self-manual-plugins-table {
+	width: 100%;
+	border-collapse: collapse;
+	text-align: left;
+	font-size: 0.8125rem;
+}
+
+.self-manual-plugins-table th {
+	background: var(--theme-elevation-100);
+	color: var(--theme-elevation-700);
+	font-weight: 700;
+	padding: 0.875rem 1rem;
+	border-bottom: 1px solid var(--theme-elevation-200);
+	font-size: 0.6875rem;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.self-manual-plugins-table td {
+	padding: 0.875rem 1rem;
+	border-bottom: 1px solid var(--theme-elevation-150, var(--theme-elevation-200));
+	vertical-align: middle;
+	color: var(--theme-text);
+}
+
+.self-manual-plugin-row {
+	transition: background 0.12s ease;
+}
+
+.self-manual-plugin-row:hover {
+	background: var(--theme-elevation-100);
+}
+
+.self-manual-plugin-row:last-child td {
+	border-bottom: none;
+}
+
+.self-manual-plugin-title-cell {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+}
+
+.self-manual-plugin-name {
+	font-size: 0.9375rem;
+	font-weight: 600;
+	color: var(--theme-text);
+}
+
+.self-manual-plugin-package {
+	font-family: monospace;
+	font-size: 0.75rem;
+	color: var(--theme-elevation-500);
+}
+
+.self-manual-plugin-status-badge {
+	background: rgba(22, 163, 74, 0.15);
+	border: 1px solid rgba(22, 163, 74, 0.4);
+	color: var(--theme-success, #16a34a);
+	border-radius: 0.25rem;
+	font-size: 0.6875rem;
+	font-weight: 700;
+	padding: 0.15rem 0.45rem;
+	text-transform: uppercase;
+	display: inline-block;
+	letter-spacing: 0.03em;
+}
+
+.self-manual-plugin-version {
+	background: var(--theme-elevation-100);
+	border: 1px solid var(--theme-elevation-200);
+	color: var(--theme-text);
+	padding: 0.15rem 0.45rem;
+	border-radius: 0.25rem;
+	font-size: 0.75rem;
+	font-weight: 500;
+	font-family: monospace;
+}
+
+.self-manual-docs-available {
+	color: var(--theme-success, #16a34a);
+	font-weight: 600;
+}
+
+.self-manual-docs-missing {
+	color: var(--theme-elevation-500);
+}
+
+.self-manual-btn-config-toggle {
+	background: var(--theme-elevation-100);
+	border: 1px solid var(--theme-elevation-200);
+	color: var(--theme-text);
+	border-radius: 0.25rem;
+	padding: 0.35rem 0.65rem;
+	font-size: 0.75rem;
+	font-weight: 500;
+	cursor: pointer;
+	transition: background 0.12s ease, border-color 0.12s ease;
+}
+
+.self-manual-btn-config-toggle:hover {
+	background: var(--theme-elevation-150, var(--theme-elevation-200));
+	border-color: var(--theme-elevation-400);
+	color: var(--theme-text);
+}
+
+.self-manual-plugin-options-row td {
+	background: var(--theme-elevation-50);
+	padding: 0.75rem 1rem 1rem 1rem;
+	border-bottom: 1px solid var(--theme-elevation-200);
+}
+
+.self-manual-plugin-options {
+	background: var(--theme-elevation-100);
+	border: 1px solid var(--theme-elevation-200);
+	border-radius: 0.25rem;
+	padding: 0.625rem;
+	font-size: 0.6875rem;
+	max-height: 12rem;
+	overflow-y: auto;
+	margin: 0;
+	color: var(--theme-text);
+}
+
