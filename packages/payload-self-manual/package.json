@@ -1,6 +1,6 @@
 {
 	"name": "@nan0web/payload-self-manual",
-	"version": "0.1.0",
+	"version": "0.4.1",
 	"description": "In-admin Markdown documentation viewer with Mermaid support for Payload CMS.",
 	"type": "module",
 	"license": "ISC",
