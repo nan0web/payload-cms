@@ -54,8 +54,13 @@
 - **Payload 3.x ESM Standard:** Повна сумісність з ESM (`"type": "module"`), чисті експорти в `package.json` (`.`, `./admin`, `./first-paint` тощо).
 - **Cross-Platform Readiness (Windows / macOS / Linux):** Усі скрипти збірки та інсталяції в `testing-app` повинні запускатися кросплатформено через Node.js чи `pnpm` (замість суто `bash` скриптів).
 - **Model-as-Schema (Критерії):** Створення моделей тільки при роботі з БД чи посягами колекцій. Детальніше дивіться в інструкції [payload-cms-models](uk/workflows/payload-cms-models.md).
+- **Автономність Сховища та I/O (Lightweight & Native APIs):** Пакети `payload-*` є самостійними публічними плагінами для екосистеми Payload CMS. СУВОРО ЗАБОРОНЕНО примусово тягнути важкі внутрішні пакети монорепозиторію на кшталт `@nan0web/db`. Усі операції з файлами, хешуванням та шляхами здійснюються через нативні модулі `node:*` (`node:fs/promises`, `node:crypto`, `node:path`, `node:stream`) або прості локальні бекенди всередині плагіна (наприклад, `local-backend.js`).
+- **NPM-Only Dependencies (Zero Monorepo Workspace Linkage):** Заборонено використовувати лінки `workspace:*` на кореневі пакети монорепозиторію (`nan.web`). Будь-які зовнішні бібліотеки (`@nan0web/types`, `@nan0web/i18n` тощо) підключаються **виключно як публічні NPM-модулі** із фіксованими/діапазонними версіями (SemVer, наприклад `"^3.4.0"`).
+- **Model-First i18n:** Усі текстові ключі та конфігурації локалізації описуються в доменних моделях (`static UI = { ... }`). В UI-компонентах виклики здійснюються виключно через посилання на модель: `t(Model.UI.key)`.
+- **UI Styling Hygiene (No Heavy Inline Styles):** Уникати масивних інлайн-стилів `style={{ ... }}` та прямого хардкоду пікселів `px` (використовувати `rem` для масштабування та accessibility). Використовувати CSS-класи, CSS-модулі та дизайн-токені Payload CMS (`var(--theme-*)`).
 - **OLMUI (One Logic — Multiple User Interfaces):** Відокремлення ядерної логіки плагіна від UI-компонентів адмінки Payload (React/Next.js) та inline-скриптів (First Paint). React-компоненти мають бути автономними та легкими.
 - **DRY & Best Practices:** Дотримання принципів DRY (Don't Repeat Yourself), DevSecOps та чистих інженерних паттернів.
+
 
 ## 6. Інтеграційне Тестування (`testing-app`) та Релізи
 

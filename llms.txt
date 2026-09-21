@@ -1,10 +1,11 @@
 # @nan0web/payload-cms Monorepo
 
-> Monorepo ecosystem for Payload CMS 3.x plugins and applications (@nan0web/payload-*). Built with pure ESM, Model-as-Schema architecture, DevSecOps principles, and OLMUI (One Logic — Multiple User Interfaces).
+> Monorepo ecosystem for Payload CMS 3.x plugins and applications (@nan0web/payload-*). Built with pure ESM, Model-as-Schema architecture, native Node.js APIs, DevSecOps principles, and OLMUI (One Logic — Multiple User Interfaces).
+> **Critical Architectural Isolation:** This repository is an autonomous ecosystem (`apps/3rdparty/payload-cms`). Packages here MUST NOT use `workspace:*` links to the outer NaN0Web monorepo. Any platform dependencies (such as `@nan0web/types`, `@nan0web/i18n`) must be consumed strictly as published NPM packages (`^x.y.z`).
 
 ## Core Documentation & Agent Rules
 
-- [AGENTS.md](docs/AGENTS.md): Main agent system prompt, Architechnomag persona, DevSecOps rules, and linguistic sovereignty.
+- [AGENTS.md](docs/AGENTS.md): Main agent system prompt, Architechnomag persona, DevSecOps rules, NPM isolation, and linguistic sovereignty.
 
 ## Workflows & Instructions
 
@@ -16,7 +17,10 @@
 
 ## Packages & Applications
 
+- [packages/payload-browse-by-folder](./packages/payload-browse-by-folder)
 - [packages/payload-keyboard-accessibility](./packages/payload-keyboard-accessibility)
+- [packages/payload-self-manual](./packages/payload-self-manual)
 - [packages/payload-self-storage](./packages/payload-self-storage)
 - [packages/payload-signin-theme-state](./packages/payload-signin-theme-state)
 - [testing-app](./testing-app)
+
