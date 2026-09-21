@@ -1,3 +1,5 @@
+import path from 'node:path'
+
 /**
  * Default visible columns for Browse by Folder Admin View
  */
@@ -35,8 +37,35 @@ export function payloadBrowseByFolder(options = {}) {
   return (config) => {
     if (!config.collections) return config
 
+    const packageDocsDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), '../docs')
+    const existingManualDocs = Array.isArray(config.custom?.selfManualDocs)
+      ? config.custom.selfManualDocs
+      : []
+    const hasSelfManualRegistration = existingManualDocs.some((d) => d?.source === '@nan0web/payload-browse-by-folder')
+
     return {
       ...config,
+      custom: {
+        ...config.custom,
+        selfManualDocs: hasSelfManualRegistration
+          ? existingManualDocs
+          : [
+              ...existingManualDocs,
+              {
+                id: 'browse-by-folder',
+                source: '@nan0web/payload-browse-by-folder',
+                title: 'Browse by Folder',
+                docsDir: packageDocsDir,
+              },
+            ],
+      },
+      admin: {
+        ...config.admin,
+        custom: {
+          ...config.admin?.custom,
+          browseByFolder: { enabled: true, columns, actions },
+        },
+      },
       collections: config.collections.map((collection) => {
       if (!targetedCollections.includes(collection.slug)) return collection
 

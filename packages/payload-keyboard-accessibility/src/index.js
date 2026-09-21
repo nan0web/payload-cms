@@ -1,3 +1,5 @@
+import path from 'node:path'
+
 const DEFAULT_FIELD_SELECTOR = 'input, textarea, select, [contenteditable="true"]'
 const DEFAULT_SUBMIT_SELECTOR = [
   'button[type="submit"]',
@@ -81,12 +83,36 @@ export function createKeyboardFocusController({ scope, ...inputOptions } = {}) {
 }
 
 export function payloadKeyboardFocus(options = {}) {
-  return (config) => {
+  return (config = {}) => {
     const existing = config?.admin?.components?.beforeNav || []
+    const packageDocsDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), '../docs')
+    const existingManualDocs = Array.isArray(config.custom?.selfManualDocs)
+      ? config.custom.selfManualDocs
+      : []
+    const hasSelfManualRegistration = existingManualDocs.some((d) => d?.source === '@nan0web/payloadcms-keyboard-accessibility')
+
     return {
       ...config,
+      custom: {
+        ...config.custom,
+        selfManualDocs: hasSelfManualRegistration
+          ? existingManualDocs
+          : [
+              ...existingManualDocs,
+              {
+                id: 'keyboard-accessibility',
+                source: '@nan0web/payloadcms-keyboard-accessibility',
+                title: 'Keyboard Accessibility',
+                docsDir: packageDocsDir,
+              },
+            ],
+      },
       admin: {
         ...config?.admin,
+        custom: {
+          ...config?.admin?.custom,
+          keyboardFocus: { enabled: true, options },
+        },
         components: {
           ...config?.admin?.components,
           beforeNav: [...(Array.isArray(existing) ? existing : [existing]), {
