@@ -39,14 +39,11 @@ export function SelfManualHelp({
 
 	const multiDocView = ui?.multiDocView || 'tabs'
 	const [currentLocale, setCurrentLocale] = useState(defaultLocale.slice(0, 2))
-	const [tFn, setTFn] = useState(() =>
-		createSyncTranslator({}, defaultLocale, translations)
-	)
+	const [tFn, setTFn] = useState(() => createSyncTranslator({}, defaultLocale, translations))
 
 	useEffect(() => {
 		const getLocale = () => {
-			const payloadLocale =
-				window?.payload?.locale || window?.__PAYLOAD_LOCALE__
+			const payloadLocale = window?.payload?.locale || window?.__PAYLOAD_LOCALE__
 			if (payloadLocale) return payloadLocale.slice(0, 2)
 			const docLang = document.documentElement.lang
 			if (docLang) return docLang.slice(0, 2)
@@ -137,10 +134,7 @@ export function SelfManualHelp({
 		if (href && href.startsWith('#doc:')) {
 			event.preventDefault()
 			setActiveSlug(href.replace('#doc:', ''))
-		} else if (
-			href &&
-			(href.startsWith('http://') || href.startsWith('https://'))
-		) {
+		} else if (href && (href.startsWith('http://') || href.startsWith('https://'))) {
 			anchor.setAttribute('target', '_blank')
 			anchor.setAttribute('rel', 'noopener noreferrer')
 		}
@@ -186,11 +180,7 @@ export function SelfManualHelp({
 							{loading && <p className="self-manual-loading">{t(UI.loading)}</p>}
 
 							{!loading && activeSlug === '__system_plugins__' && (
-								<PluginsTableView
-									plugins={activeDocument?.system?.plugins || []}
-									t={t}
-									UI={UI}
-								/>
+								<PluginsTableView plugins={activeDocument?.system?.plugins || []} t={t} UI={UI} />
 							)}
 
 							{!loading && activeSlug !== '__system_plugins__' && (
@@ -210,3 +200,4 @@ export function SelfManualHelp({
 		</>
 	)
 }
+export default SelfManualHelp

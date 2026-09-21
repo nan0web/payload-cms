@@ -11,7 +11,7 @@ import { createUploadHandler, serveStorageFile } from './file-server.js'
 
 /**
  * @typedef {Object} PayloadSelfStorageOptions
- * @property {string} publicOrigin
+ * @property {string} [publicOrigin]
  * @property {string} [rootDir]
  * @property {string[]} [collections]
  * @property {string} [publicUrlPrefix]
@@ -28,7 +28,7 @@ import { createUploadHandler, serveStorageFile } from './file-server.js'
 
 /**
  * @param {PayloadSelfStorageOptions} options
- * @returns {((config: import('payload').Config | Promise<import('payload').Config>) => Promise<import('payload').Config>) & { backend: import('../storage/local-backend.js').LocalBackend, version: string }}
+ * @returns {<T>(config: T) => T}
  */
 export function payloadSelfStorage({
 	rootDir,

@@ -115,7 +115,7 @@ export function payloadKeyboardFocus(options = {}) {
         },
         components: {
           ...config?.admin?.components,
-          beforeNav: [...(Array.isArray(existing) ? existing : [existing]), {
+          beforeNav: [...(Array.isArray(existing) ? existing : [existing].filter(Boolean)), {
             path: '@nan0web/payload-keyboard-accessibility/admin#KeyboardFocusAdmin',
             clientProps: options,
           }],

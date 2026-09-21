@@ -6,11 +6,11 @@ Official workspace for `@nan0web/payload-*` plugins ecosystem for **Payload CMS 
 
 | Package | Description | Version | NPM Link | Status |
 | :--- | :--- | :---: | :---: | :---: |
-| [`@nan0web/payload-self-storage`](packages/payload-self-storage) | Physical file storage, WebP conversion, folder hierarchy, backend-neutral backup | `v0.1.0` | [npm](https://www.npmjs.com/package/@nan0web/payload-self-storage) | 🟢 Published |
+| [`@nan0web/payload-self-storage`](packages/payload-self-storage) | Physical file storage, WebP conversion, folder hierarchy, backend-neutral backup | `v0.2.0` | [npm](https://www.npmjs.com/package/@nan0web/payload-self-storage) | 🟢 Published |
 | [`@nan0web/payload-browse-by-folder`](packages/payload-browse-by-folder) | Tree view navigation for folder-based media browsing in Admin UI | `v0.1.0` | [npm](https://www.npmjs.com/package/@nan0web/payload-browse-by-folder) | 🟢 Published |
-| [`@nan0web/payload-self-manual`](packages/payload-self-manual) | Contextual Markdown documentation viewer (`⌘/` / `Ctrl+/`) with Mermaid support | `v0.1.0` | [npm](https://www.npmjs.com/package/@nan0web/payload-self-manual) | 🟢 Published |
+| [`@nan0web/payload-self-manual`](packages/payload-self-manual) | Contextual Markdown documentation viewer (`⌘/` / `Ctrl+/`) with Mermaid support | `v0.4.1` | [npm](https://www.npmjs.com/package/@nan0web/payload-self-manual) | 🟢 Published |
 | [`@nan0web/payload-signin-theme-state`](packages/payload-signin-theme-state) | Admin & Login theme persistence (`localStorage`) without white flash | `v0.1.0` | [npm](https://www.npmjs.com/package/@nan0web/payload-signin-theme-state) | 🟢 Published |
-| [`@nan0web/payloadcms-keyboard-accessibility`](packages/payload-keyboard-accessibility) | Predictable keyboard shortcuts (`Cmd+S`, `Cmd+Enter`) & focus scope control | `v0.1.1` | [npm](https://www.npmjs.com/package/@nan0web/payloadcms-keyboard-accessibility) | 🟢 Published |
+| [`@nan0web/payload-keyboard-accessibility`](packages/payload-keyboard-accessibility) | Predictable keyboard shortcuts (`Cmd+S`, `Cmd+Enter`) & focus scope control | `v0.1.1` | [npm](https://www.npmjs.com/package/@nan0web/payload-keyboard-accessibility) | 🟢 Published |
 
 ---
 
@@ -23,7 +23,7 @@ pnpm add @nan0web/payload-self-storage \
          @nan0web/payload-browse-by-folder \
          @nan0web/payload-self-manual \
          @nan0web/payload-signin-theme-state \
-         @nan0web/payloadcms-keyboard-accessibility
+         @nan0web/payload-keyboard-accessibility
 ```
 
 ### 2. Configure `src/payload.config.ts`:
@@ -34,7 +34,7 @@ import { payloadSelfStorage } from '@nan0web/payload-self-storage'
 import { payloadBrowseByFolder } from '@nan0web/payload-browse-by-folder'
 import { payloadSelfManual } from '@nan0web/payload-self-manual'
 import { payloadSigninThemeState } from '@nan0web/payload-signin-theme-state'
-import { payloadKeyboardFocus } from '@nan0web/payloadcms-keyboard-accessibility'
+import { payloadKeyboardFocus } from '@nan0web/payload-keyboard-accessibility'
 
 // Config transform wrapper for self-storage & WebP conversion
 const withStorage = payloadSelfStorage({
@@ -70,10 +70,23 @@ pnpm install
 pnpm pack:all
 ```
 
-### 3. Launch Development Sandbox
+### 3. Launch Development Sandbox (`testing-app`)
+
+Run with **all plugins** enabled:
 ```bash
-pnpm pack:all && pnpm --filter testing-app dev
+pnpm --filter testing-app dev
 ```
+
+Run with **selective plugins** (filter by ID):
+```bash
+# Run only self-storage
+PLUGINS=self-storage pnpm --filter testing-app dev
+
+# Run self-manual and browse-by-folder
+PLUGINS=self-manual,browse-by-folder pnpm --filter testing-app dev
+```
+
+> **Available Plugin IDs**: `self-storage`, `browse-by-folder`, `self-manual`, `signin-theme-state`, `keyboard-accessibility`
 
 ### 4. Publish updated packages to NPM
 ```bash

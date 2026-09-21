@@ -32,7 +32,7 @@ export const withStorage = payloadSelfStorage({
 })
 
 
-const config = buildConfig({
+export default buildConfig({
   admin: {
     components: {
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
@@ -104,5 +104,3 @@ const config = buildConfig({
     tasks: [],
   },
 })
-
-export default withStorage(await config)

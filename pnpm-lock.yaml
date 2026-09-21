@@ -125,6 +125,9 @@ importers:
       '@nan0web/payload-browse-by-folder':
         specifier: workspace:*
         version: link:../packages/payload-browse-by-folder
+      '@nan0web/payload-keyboard-accessibility':
+        specifier: workspace:*
+        version: link:../packages/payload-keyboard-accessibility
       '@nan0web/payload-self-manual':
         specifier: workspace:*
         version: link:../packages/payload-self-manual
@@ -134,9 +137,6 @@ importers:
       '@nan0web/payload-signin-theme-state':
         specifier: workspace:*
         version: link:../packages/payload-signin-theme-state
-      '@nan0web/payloadcms-keyboard-accessibility':
-        specifier: workspace:*
-        version: link:../packages/payload-keyboard-accessibility
       '@nan0web/types':
         specifier: ^3.4.0
         version: 3.4.0
@@ -9110,10 +9110,6 @@ snapshots:
     dependencies:
       walk-up-path: 4.0.0
 
-  fdir@6.5.0(picomatch@4.0.5):
-    optionalDependencies:
-      picomatch: 4.0.5
-
   fdir@6.5.0(picomatch@4.0.7):
     optionalDependencies:
       picomatch: 4.0.7
@@ -11507,8 +11503,8 @@ snapshots:
   vite@7.3.6(@types/node@22.19.9)(jiti@2.7.0)(lightningcss@1.32.0)(sass@1.77.4)(tsx@4.22.4)(yaml@2.9.0):
     dependencies:
       esbuild: 0.28.2
-      fdir: 6.5.0(picomatch@4.0.5)
-      picomatch: 4.0.5
+      fdir: 6.5.0(picomatch@4.0.7)
+      picomatch: 4.0.7
       postcss: 8.5.26
       rollup: 4.62.4
       tinyglobby: 0.2.17

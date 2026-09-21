@@ -1,6 +1,6 @@
 /**
  * @typedef {Object} PayloadSelfStorageOptions
- * @property {string} publicOrigin
+ * @property {string} [publicOrigin]
  * @property {string} [rootDir]
  * @property {string[]} [collections]
  * @property {string} [publicUrlPrefix]
@@ -16,14 +16,11 @@
  */
 /**
  * @param {PayloadSelfStorageOptions} options
- * @returns {((config: import('payload').Config | Promise<import('payload').Config>) => Promise<import('payload').Config>) & { backend: import('../storage/local-backend.js').LocalBackend, version: string }}
+ * @returns {<T>(config: T) => T}
  */
-export function payloadSelfStorage({ rootDir, publicOrigin, collections, publicUrlPrefix, legacyLookup, collision, convertImageSizesToWebp, lazySizes, mimeTypes, cacheControl, thumbnailFormats, isolateRouting, onRedirect, }?: PayloadSelfStorageOptions): ((config: import("payload").Config | Promise<import("payload").Config>) => Promise<import("payload").Config>) & {
-    backend: import("../storage/local-backend.js").LocalBackend;
-    version: string;
-};
+export function payloadSelfStorage({ rootDir, publicOrigin, collections, publicUrlPrefix, legacyLookup, collision, convertImageSizesToWebp, lazySizes, mimeTypes, cacheControl, thumbnailFormats, isolateRouting, onRedirect, }?: PayloadSelfStorageOptions): <T>(config: T) => T;
 export type PayloadSelfStorageOptions = {
-    publicOrigin: string;
+    publicOrigin?: string | undefined;
     rootDir?: string | undefined;
     collections?: string[] | undefined;
     publicUrlPrefix?: string | undefined;
