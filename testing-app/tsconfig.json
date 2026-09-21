@@ -31,6 +31,9 @@
       "react": [
         "./node_modules/@types/react"
       ],
+      "@nan0web/types": [
+        "../node_modules/@nan0web/types"
+      ],
       "@/*": [
         "./src/*"
       ]

@@ -20,18 +20,15 @@ import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0
 import { SlateToLexicalFeatureClient as SlateToLexicalFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { FolderTableCell as FolderTableCell_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 import { FolderField as FolderField_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
-import { FolderNavigation as FolderNavigation_c6fb18bac3c917e3f5581bb02d5bd797 } from '@nan0web/payload-browse-by-folder/admin'
+import { default as default_afd671e05bc764557fda515897004094 } from '@/components/FilesizeCell'
 import { LinkToDoc as LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
 import { ReindexButton as ReindexButton_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
 import { FolderTypeField as FolderTypeField_2b8867833a34864a02ddf429b0728a40 } from '@payloadcms/next/client'
 import { RowLabel as RowLabel_ec255a65fa6fa8d1faeb09cf35284224 } from '@/Header/RowLabel'
 import { RowLabel as RowLabel_1f6ff6ff633e3695d348f4f3c58f1466 } from '@/Footer/RowLabel'
-import { default as default_160e7c27c7492821c210851d24d76bd3 } from '@nan0web/payload-self-manual/admin'
+import { SelfManualHelp as SelfManualHelp_160e7c27c7492821c210851d24d76bd3 } from '@nan0web/payload-self-manual/admin'
 import { default as default_1a7510af427896d367a49dbf838d2de6 } from '@/components/BeforeDashboard'
 import { default as default_8a7ab0eb7ab5c511aba12e68480bfe5e } from '@/components/BeforeLogin'
-import { ThemeFirstPaint as ThemeFirstPaint_d5f4edb7a2cea50358bac479c7e45f69 } from '@nan0web/payload-signin-theme-state/first-paint'
-import { KeyboardFocusAdmin as KeyboardFocusAdmin_88a7bab8159f90af4354e859432bc19e } from '@nan0web/payloadcms-keyboard-accessibility/admin'
-import { ThemeProvider as ThemeProvider_e2e81a0e485e9394c108e3a7fd01ae98 } from '@nan0web/payload-signin-theme-state/admin'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 /** @type import('payload').ImportMap */
@@ -58,17 +55,14 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#SlateToLexicalFeatureClient": SlateToLexicalFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/next/rsc#FolderTableCell": FolderTableCell_f9c02e79a4aed9a3924487c0cd4cafb1,
   "@payloadcms/next/rsc#FolderField": FolderField_f9c02e79a4aed9a3924487c0cd4cafb1,
-  "@nan0web/payload-browse-by-folder/admin#FolderNavigation": FolderNavigation_c6fb18bac3c917e3f5581bb02d5bd797,
+  "@/components/FilesizeCell#default": default_afd671e05bc764557fda515897004094,
   "@payloadcms/plugin-search/client#LinkToDoc": LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634,
   "@payloadcms/plugin-search/client#ReindexButton": ReindexButton_aead06e4cbf6b2620c5c51c9ab283634,
   "@payloadcms/next/client#FolderTypeField": FolderTypeField_2b8867833a34864a02ddf429b0728a40,
   "@/Header/RowLabel#RowLabel": RowLabel_ec255a65fa6fa8d1faeb09cf35284224,
   "@/Footer/RowLabel#RowLabel": RowLabel_1f6ff6ff633e3695d348f4f3c58f1466,
-  "@nan0web/payload-self-manual/admin#default": default_160e7c27c7492821c210851d24d76bd3,
+  "@nan0web/payload-self-manual/admin#SelfManualHelp": SelfManualHelp_160e7c27c7492821c210851d24d76bd3,
   "@/components/BeforeDashboard#default": default_1a7510af427896d367a49dbf838d2de6,
   "@/components/BeforeLogin#default": default_8a7ab0eb7ab5c511aba12e68480bfe5e,
-  "@nan0web/payload-signin-theme-state/first-paint#ThemeFirstPaint": ThemeFirstPaint_d5f4edb7a2cea50358bac479c7e45f69,
-  "@nan0web/payloadcms-keyboard-accessibility/admin#KeyboardFocusAdmin": KeyboardFocusAdmin_88a7bab8159f90af4354e859432bc19e,
-  "@nan0web/payload-signin-theme-state/admin#ThemeProvider": ThemeProvider_e2e81a0e485e9394c108e3a7fd01ae98,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }

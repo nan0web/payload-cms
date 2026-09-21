@@ -276,6 +276,18 @@ export interface Post {
  */
 export interface Media {
   id: number;
+  /**
+   * Custom relative file path (e.g. img/products/cards/Visa-Instant.webp)
+   */
+  sourcePath?: string | null;
+  /**
+   * Indicates whether an identical file hash already exists in storage
+   */
+  isDuplicate?: boolean | null;
+  /**
+   * Notice about matched canonical file
+   */
+  duplicateMessage?: string | null;
   alt?: string | null;
   caption?: {
     root: {
@@ -1215,6 +1227,9 @@ export interface PostsSelect<T extends boolean = true> {
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
+  sourcePath?: T;
+  isDuplicate?: T;
+  duplicateMessage?: T;
   alt?: T;
   caption?: T;
   folder?: T;

@@ -26,6 +26,32 @@ export const Media: CollectionConfig = {
   },
   fields: [
     {
+      name: 'sourcePath',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+        description: 'Custom relative file path (e.g. img/products/cards/Visa-Instant.webp)',
+      },
+    },
+    {
+      name: 'isDuplicate',
+      type: 'checkbox',
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+        description: 'Indicates whether an identical file hash already exists in storage',
+      },
+    },
+    {
+      name: 'duplicateMessage',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+        description: 'Notice about matched canonical file',
+      },
+    },
+    {
       name: 'alt',
       type: 'text',
       //required: true,
@@ -38,6 +64,16 @@ export const Media: CollectionConfig = {
           return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature(), SlateToLexicalFeature()]
         },
       }),
+    },
+    {
+      name: 'filesize',
+      type: 'number',
+      admin: {
+        readOnly: true,
+        components: {
+          Cell: '@/components/FilesizeCell',
+        },
+      },
     },
   ],
   upload: {

@@ -13,6 +13,7 @@ const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
 
 const nextConfig: NextConfig = {
   transpilePackages: [
+    '@nan0web/types',
     '@nan0web/payload-self-storage',
     '@nan0web/payload-signin-theme-state',
     '@nan0web/payloadcms-keyboard-accessibility',
@@ -54,7 +55,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   redirects,
   turbopack: {
-    root: path.resolve(dirname),
+    root: path.resolve(dirname, '..'),
   },
 }
 

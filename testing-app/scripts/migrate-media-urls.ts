@@ -67,8 +67,8 @@ for (const doc of docs.docs) {
     } else {
       skipped++
     }
-  } catch (err) {
-    console.error(`❌ Failed to update doc ${doc.id}:`, err.message)
+  } catch (err: any) {
+    console.error(`❌ Failed to update doc ${doc.id}:`, err?.message || String(err))
     errors++
   }
 }

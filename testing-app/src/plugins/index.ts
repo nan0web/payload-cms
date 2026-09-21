@@ -27,11 +27,14 @@ const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
   return doc?.slug ? `${url}/${doc.slug}` : url
 }
 
-export const plugins: Plugin[] = [
-  payloadKeyboardFocus(),
-  payloadSigninThemeState(),
-  payloadBrowseByFolder(),
-  payloadSelfManual(),
+const nan0Plugins: Array<{ id: string, plugin: Plugin }> = [
+  { id: 'keyboard-accessibility', plugin: payloadKeyboardFocus() as unknown as Plugin },
+  { id: 'signin-theme-state', plugin: payloadSigninThemeState() as unknown as Plugin },
+  { id: 'browse-by-folder', plugin: payloadBrowseByFolder() as unknown as Plugin },
+  { id: 'self-manual', plugin: payloadSelfManual() as unknown as Plugin },
+]
+
+const basePayloadPlugins: Plugin[] = [
   redirectsPlugin({
     collections: ['pages', 'posts'],
     overrides: {
@@ -98,3 +101,19 @@ export const plugins: Plugin[] = [
     },
   }),
 ]
+
+const envFilter = (process.env.PLUGINS || process.env.PLUGIN || '').trim().toLowerCase()
+const activeFilterList = envFilter ? envFilter.split(',').map((s) => s.trim()) : null
+
+const activeNan0Plugins = (
+  activeFilterList
+    ? nan0Plugins.filter((item) => activeFilterList.includes(item.id))
+    : nan0Plugins
+).map((item) => item.plugin)
+
+export const plugins: Plugin[] = [
+  ...basePayloadPlugins,
+  ...activeNan0Plugins,
+]
+
+

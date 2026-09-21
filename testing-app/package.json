@@ -27,6 +27,7 @@
     "@nan0web/payload-self-storage": "workspace:*",
     "@nan0web/payload-signin-theme-state": "workspace:*",
     "@nan0web/payloadcms-keyboard-accessibility": "workspace:*",
+    "@nan0web/types": "^3.4.0",
     "@payloadcms/admin-bar": "3.87.1",
     "@payloadcms/db-postgres": "3.87.1",
     "@payloadcms/live-preview-react": "3.87.1",
