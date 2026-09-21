@@ -16,5 +16,4 @@ export function SelfManualHelp({ docsDir, defaultLocale, availableLocales, ui, t
     ui?: any;
     translations?: Record<string, Record<string, string>> | undefined;
 }): React.JSX.Element;
-export default SelfManualHelp;
 import React from 'react';
