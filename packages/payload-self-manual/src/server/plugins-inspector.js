@@ -70,9 +70,9 @@ export function inspectPlugins(config = {}) {
 	) {
 		pluginsMap.set('keyboard-accessibility', {
 			id: 'keyboard-accessibility',
-			name: '@nan0web/payloadcms-keyboard-accessibility',
+			name: '@nan0web/payload-keyboard-accessibility',
 			title: 'Keyboard Accessibility',
-			version: '0.1.0',
+			version: '0.1.1',
 			status: 'active',
 			hasDocs: true,
 			docsDir: 'docs',

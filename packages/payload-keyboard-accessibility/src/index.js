@@ -89,7 +89,7 @@ export function payloadKeyboardFocus(options = {}) {
     const existingManualDocs = Array.isArray(config.custom?.selfManualDocs)
       ? config.custom.selfManualDocs
       : []
-    const hasSelfManualRegistration = existingManualDocs.some((d) => d?.source === '@nan0web/payloadcms-keyboard-accessibility')
+    const hasSelfManualRegistration = existingManualDocs.some((d) => d?.source === '@nan0web/payload-keyboard-accessibility')
 
     return {
       ...config,
@@ -101,7 +101,7 @@ export function payloadKeyboardFocus(options = {}) {
               ...existingManualDocs,
               {
                 id: 'keyboard-accessibility',
-                source: '@nan0web/payloadcms-keyboard-accessibility',
+                source: '@nan0web/payload-keyboard-accessibility',
                 title: 'Keyboard Accessibility',
                 docsDir: packageDocsDir,
               },
@@ -116,7 +116,7 @@ export function payloadKeyboardFocus(options = {}) {
         components: {
           ...config?.admin?.components,
           beforeNav: [...(Array.isArray(existing) ? existing : [existing]), {
-            path: '@nan0web/payloadcms-keyboard-accessibility/admin#KeyboardFocusAdmin',
+            path: '@nan0web/payload-keyboard-accessibility/admin#KeyboardFocusAdmin',
             clientProps: options,
           }],
         },

@@ -56,7 +56,7 @@ describe('payload-keyboard-focus 0.1.0 contract', () => {
 		const config = { admin: { components: { beforeNav: [] } } }
 		const updated = payloadKeyboardFocus()(config)
 
-		assert.equal(updated.admin.components.beforeNav[0].path, '@nan0web/payloadcms-keyboard-accessibility/admin#KeyboardFocusAdmin')
+		assert.equal(updated.admin.components.beforeNav[0].path, '@nan0web/payload-keyboard-accessibility/admin#KeyboardFocusAdmin')
 	})
 
 	it('keeps default selectors when optional admin props are undefined', () => {

@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
     '@nan0web/types',
     '@nan0web/payload-self-storage',
     '@nan0web/payload-signin-theme-state',
-    '@nan0web/payloadcms-keyboard-accessibility',
+    '@nan0web/payload-keyboard-accessibility',
     '@nan0web/payload-browse-by-folder',
     '@nan0web/payload-self-manual',
   ],

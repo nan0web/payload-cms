@@ -11,7 +11,7 @@ console.log(`
   ▶ pnpm dev:folder      Start ONLY with @nan0web/payload-browse-by-folder
   ▶ pnpm dev:storage     Start ONLY with @nan0web/payload-self-storage
   ▶ pnpm dev:theme       Start ONLY with @nan0web/payload-signin-theme-state
-  ▶ pnpm dev:keyboard    Start ONLY with @nan0web/payloadcms-keyboard-accessibility
+  ▶ pnpm dev:keyboard    Start ONLY with @nan0web/payload-keyboard-accessibility
   ▶ pnpm dev:manual      Start ONLY with @nan0web/payload-self-manual
 
 🚀 Production Commands:
