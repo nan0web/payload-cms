@@ -1,5 +1,21 @@
 {
-  "ignore": [
-    "releases/**/*.js"
-  ]
+	"$schema": "https://unpkg.com/knip@5/schema.json",
+	"entry": [
+		"src/index.js!",
+		"src/storage/index.js!",
+		"src/payload/index.js!"
+	],
+	"project": [
+		"src/**/*.js!"
+	],
+	"ignore": [
+		"types/**/*",
+		"releases/**/*",
+		"test/**/*",
+		"src/**/*.test.js"
+	],
+	"ignoreDependencies": [
+		"sharp",
+		"knip"
+	]
 }

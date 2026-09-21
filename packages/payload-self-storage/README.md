@@ -6,6 +6,9 @@ Self-hosted filesystem storage adapter and backup foundation for Payload CMS.
 
 - [English documentation](docs/en/README.md)
 - [Українська документація](docs/uk/README.md)
+- [v0.2.0 release guide & testing](releases/0/2/v0.2.0/README.md)
+- [v0.2.0 release task & metrics](releases/0/2/v0.2.0/user.md)
+- [v0.2.0 acceptance specification](releases/0/2/v0.2.0/task.spec.js)
 - [v0.1.0 release task](releases/0/1/v0.1.0/task.md)
 - [v0.1.0 acceptance specification](releases/0/1/v0.1.0/task.spec.js)
 

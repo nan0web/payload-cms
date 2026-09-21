@@ -110,4 +110,24 @@ describe('Payload config integration', () => {
     assert.equal(await withStorage.backend.exists('/media/2026/mapa.webp'), true)
     assert.equal(result.url, '/media/2026/mapa.webp')
   })
+
+  it('saves files into nested directories based on sourcePath and cleans duplicate suffixes', async () => {
+    const root = await mkdtemp(path.join(os.tmpdir(), 'payload-plugin-')); roots.push(root)
+    const withStorage = payloadSelfStorage({ rootDir: root, collision: 'overwrite' })
+    const config = withStorage({ collections: [{ slug: 'media', hooks: {} }] })
+    const media = config.collections[0]
+
+    const doc = {
+      sourcePath: 'img/products/cards/Visa-Instant.webp',
+      filename: 'Visa-Instant-1.webp',
+      url: '/media/Visa-Instant-1.webp',
+      mimeType: 'image/webp'
+    }
+    await withStorage.backend.write('/media/Visa-Instant-1.webp', Readable.from('visa-data'))
+    const result = await media.hooks.beforeChange[0]({ doc, req: {} })
+
+    assert.equal(result.url, '/media/img/products/cards/Visa-Instant.webp')
+    assert.equal(result.filename, 'img/products/cards/Visa-Instant.webp')
+    assert.equal(await withStorage.backend.exists('/media/img/products/cards/Visa-Instant.webp'), true)
+  })
 })
