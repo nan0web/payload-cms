@@ -13,7 +13,6 @@ import { payloadKeyboardFocus } from '@nan0web/payload-keyboard-accessibility'
 import { payloadSigninThemeState } from '@nan0web/payload-signin-theme-state'
 import { payloadBrowseByFolder } from '@nan0web/payload-browse-by-folder'
 import { payloadSelfManual } from '@nan0web/payload-self-manual'
-import { payloadSelfStorage } from '@nan0web/payload-self-storage'
 
 import { Page, Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
@@ -29,7 +28,6 @@ const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
 }
 
 const nan0Plugins: Array<{ id: string, plugin: Plugin }> = [
-  { id: 'self-storage', plugin: payloadSelfStorage({ rootDir: './storage' }) as unknown as Plugin },
   { id: 'keyboard-accessibility', plugin: payloadKeyboardFocus() as unknown as Plugin },
   { id: 'signin-theme-state', plugin: payloadSigninThemeState() as unknown as Plugin },
   { id: 'browse-by-folder', plugin: payloadBrowseByFolder() as unknown as Plugin },

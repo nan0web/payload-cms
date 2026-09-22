@@ -96,6 +96,17 @@ describe('self-storage integration', () => {
     const origFullPath = path.join(rootDir, doc.serverUrl)
     expect(await fileExists(origFullPath), 'original physical file').toBe(true)
 
+    // Verify HTTP route handler serves both original and thumbnail with 200 OK
+    const { serveStorageFile } = await import('@nan0web/payload-self-storage')
+    const { withStorage } = await import('@/payload.config')
+    const thumbResponse = await serveStorageFile(withStorage.backend, rootDir, doc.thumbnailURL)
+    expect(thumbResponse.status, 'thumbnailURL returns 200 OK').toBe(200)
+    expect(thumbResponse.headers.get('content-type'), 'thumbnailURL is image/webp').toBe('image/webp')
+
+    const origResponse = await serveStorageFile(withStorage.backend, rootDir, doc.url)
+    expect(origResponse.status, 'doc.url returns 200 OK').toBe(200)
+    expect(origResponse.headers.get('content-type'), 'doc.url is image/webp').toBe('image/webp')
+
     // Directory tree
     const storageBase = path.join(rootDir, 'Root', 'images', 'test-integration')
     const entries = await readdir(storageBase, { withFileTypes: true })
