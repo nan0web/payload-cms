@@ -1,6 +1,6 @@
 {
 	"name": "@nan0web/payload-keyboard-accessibility",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "Keyboard focus and submit shortcuts for Payload CMS Admin forms.",
 	"type": "module",
 	"license": "ISC",
