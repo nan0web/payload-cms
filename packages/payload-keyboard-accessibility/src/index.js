@@ -92,7 +92,13 @@ export function createKeyboardFocusController({ scope, ...inputOptions } = {}) {
 export function payloadKeyboardFocus(options = {}) {
   return (config = {}) => {
     const existing = config?.admin?.components?.beforeNav || []
-    const packageDocsDir = new URL('../docs', import.meta.url).pathname
+    let packageDocsDir = 'docs'
+    try {
+      const docsRel = '..' + '/docs'
+      packageDocsDir = new URL(docsRel, import.meta.url).pathname
+    } catch {
+      // Browser or non-URL environment fallback
+    }
     const existingManualDocs = Array.isArray(config.custom?.selfManualDocs)
       ? config.custom.selfManualDocs
       : []
