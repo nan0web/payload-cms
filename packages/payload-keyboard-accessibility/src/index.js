@@ -1,4 +1,3 @@
-import path from 'node:path'
 
 const DEFAULT_FIELD_SELECTOR = 'input, textarea, select, [contenteditable="true"]'
 const DEFAULT_SUBMIT_SELECTOR = [
@@ -36,6 +35,14 @@ export function isSubmitShortcut(event) {
   return event?.key === 'Enter' && Boolean(event.metaKey || event.ctrlKey) && !event.altKey
 }
 
+/**
+ * @param {Object} [options]
+ * @param {any} [options.scope]
+ * @param {string} [options.fieldSelector]
+ * @param {string} [options.submitSelector]
+ * @param {string} [options.optOutAttribute]
+ * @param {string} [options.scopeSelector]
+ */
 export function createKeyboardFocusController({ scope, ...inputOptions } = {}) {
   const options = { ...DEFAULT_OPTIONS }
   for (const [key, value] of Object.entries(inputOptions)) {
@@ -85,7 +92,7 @@ export function createKeyboardFocusController({ scope, ...inputOptions } = {}) {
 export function payloadKeyboardFocus(options = {}) {
   return (config = {}) => {
     const existing = config?.admin?.components?.beforeNav || []
-    const packageDocsDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), '../docs')
+    const packageDocsDir = new URL('../docs', import.meta.url).pathname
     const existingManualDocs = Array.isArray(config.custom?.selfManualDocs)
       ? config.custom.selfManualDocs
       : []

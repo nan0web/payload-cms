@@ -3,6 +3,13 @@
 import { useEffect } from 'react'
 import { createKeyboardFocusController } from './index.js'
 
+/**
+ * @param {Object} [props]
+ * @param {string} [props.fieldSelector]
+ * @param {string} [props.submitSelector]
+ * @param {string} [props.optOutAttribute]
+ * @param {string} [props.scopeSelector]
+ */
 export function KeyboardFocusAdmin({ fieldSelector, submitSelector, optOutAttribute, scopeSelector } = {}) {
   useEffect(() => {
     const controllers = new Map()
