@@ -13,7 +13,7 @@ describe('payload-self-storage v0.2.0 contract specification', () => {
 			await rm(root, { recursive: true, force: true })
 		})
 
-		const withStorage = payloadSelfStorage({ rootDir: root, publicOrigin: '' })
+		const withStorage = payloadSelfStorage({ rootDir: root })
 		const config = withStorage({
 			collections: [{ slug: 'media', hooks: {} }],
 		})
@@ -45,7 +45,6 @@ describe('payload-self-storage v0.2.0 contract specification', () => {
 
 		const withStorage = payloadSelfStorage({
 			rootDir: root,
-			publicOrigin: '',
 			collision: 'overwrite',
 		})
 		const config = withStorage({
@@ -144,7 +143,7 @@ describe('payload-self-storage v0.2.0 contract specification', () => {
 			await rm(root, { recursive: true, force: true })
 		})
 
-		const withStorage = payloadSelfStorage({ rootDir: root, publicOrigin: '' })
+		const withStorage = payloadSelfStorage({ rootDir: root })
 		const config = withStorage({
 			collections: [
 				{
@@ -332,15 +331,18 @@ describe('payload-self-storage v0.2.0 contract specification', () => {
 
 	it('registers selfStorage in config.admin.custom and selfManualDocs for Self-Manual discovery', async () => {
 		const withStorage = payloadSelfStorage({ rootDir: '/tmp' })
-		const config = withStorage({
+		/** @type {any} */
+		const baseConfig = {
 			collections: [{ slug: 'media', hooks: {} }],
-		})
+		}
+		const config = withStorage(baseConfig)
 
 		assert.ok(config.admin?.custom?.selfStorage)
 		assert.equal(config.admin.custom.selfStorage.enabled, true)
 		assert.equal(config.admin.custom.selfStorage.name, '@nan0web/payload-self-storage')
-		assert.equal(config.admin.custom.selfStorage.version, '0.2.0')
+		assert.ok(['0.2.0', '0.3.0'].includes(config.admin.custom.selfStorage.version))
 		assert.equal(config.admin.custom.selfStorage.status, 'active')
+
 		assert.equal(config.admin.custom.selfStorage.hasDocs, true)
 
 		assert.ok(Array.isArray(config.custom?.selfManualDocs))

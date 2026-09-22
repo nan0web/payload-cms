@@ -14,7 +14,10 @@ export function createRedirect({ from, to, statusCode, expiresAt, resourceType }
     createdAt: Date;
     updatedAt: Date;
 };
+/**
+ * @param {{ lookup: (url: string) => Promise<any>, authorize?: (to: string, context?: any) => Promise<boolean> | boolean }} options
+ */
 export function createRedirectResolver({ lookup, authorize }: {
-    lookup: any;
-    authorize?: (() => Promise<boolean>) | undefined;
+    lookup: (url: string) => Promise<any>;
+    authorize?: (to: string, context?: any) => Promise<boolean> | boolean;
 }): (url: any, context: any) => Promise<any>;

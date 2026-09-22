@@ -1,7 +1,14 @@
 /**
+ * Checks if a Next.js App Router Route Handler exists for the given publicUrlPrefix.
+ *
+ * @param {string} publicUrlPrefix
+ * @returns {boolean}
+ */
+export function checkMediaRouteHandler(publicUrlPrefix: string): boolean;
+/**
  * @typedef {Object} PayloadSelfStorageOptions
- * @property {string} [publicOrigin]
- * @property {string} [rootDir]
+ * @property {string} rootDir
+ * @property {string} [thumbnailsDir='.thumbnails']
  * @property {string[]} [collections]
  * @property {string} [publicUrlPrefix]
  * @property {boolean} [legacyLookup]
@@ -12,16 +19,24 @@
  * @property {string} [cacheControl]
  * @property {string[]} [thumbnailFormats]
  * @property {boolean} [isolateRouting]
- * @property {(redirect: object) => Promise<void>} [onRedirect]
+ * @property {(redirect: any) => Promise<void> | void} [onRedirect]
+ */
+/**
+ * @typedef {Object} PayloadPluginProps
+ * @property {import('../storage/local-backend.js').LocalBackend} backend
+ * @property {string} rootDir
+ */
+/**
+ * @typedef {((config: any) => any) & PayloadPluginProps} PayloadPluginFunction
  */
 /**
  * @param {PayloadSelfStorageOptions} options
- * @returns {<T>(config: T) => T}
+ * @returns {PayloadPluginFunction}
  */
-export function payloadSelfStorage({ rootDir, publicOrigin, collections, publicUrlPrefix, legacyLookup, collision, convertImageSizesToWebp, lazySizes, mimeTypes, cacheControl, thumbnailFormats, isolateRouting, onRedirect, }?: PayloadSelfStorageOptions): <T>(config: T) => T;
+export function payloadSelfStorage({ rootDir, thumbnailsDir, collections, publicUrlPrefix, legacyLookup, collision, convertImageSizesToWebp, lazySizes, mimeTypes, cacheControl, thumbnailFormats, isolateRouting, onRedirect, }: PayloadSelfStorageOptions): PayloadPluginFunction;
 export type PayloadSelfStorageOptions = {
-    publicOrigin?: string | undefined;
-    rootDir?: string | undefined;
+    rootDir: string;
+    thumbnailsDir?: string | undefined;
     collections?: string[] | undefined;
     publicUrlPrefix?: string | undefined;
     legacyLookup?: boolean | undefined;
@@ -32,5 +47,10 @@ export type PayloadSelfStorageOptions = {
     cacheControl?: string | undefined;
     thumbnailFormats?: string[] | undefined;
     isolateRouting?: boolean | undefined;
-    onRedirect?: ((redirect: object) => Promise<void>) | undefined;
+    onRedirect?: ((redirect: any) => Promise<void> | void) | undefined;
 };
+export type PayloadPluginProps = {
+    backend: import("../storage/local-backend.js").LocalBackend;
+    rootDir: string;
+};
+export type PayloadPluginFunction = ((config: any) => any) & PayloadPluginProps;

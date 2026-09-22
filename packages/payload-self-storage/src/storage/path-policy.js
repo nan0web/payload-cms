@@ -19,20 +19,32 @@ function asPath(value) {
 }
 
 export function createPathPolicy({ publicUrlPrefix = '/media' } = {}) {
-  const prefix = `/${publicUrlPrefix.replace(/^\/+|\/+$/g, '')}`
+  const cleanPrefix = (publicUrlPrefix ?? '').replace(/^\/+|\/+$/g, '')
+  const prefix = cleanPrefix ? `/${cleanPrefix}` : ''
   return {
     normalizeUrl(value) {
       const pathname = asPath(value)
-      if (!pathname.startsWith(`${prefix}/`) && pathname !== prefix) throw new StoragePathError('URL is outside the public prefix')
-      return pathname === prefix ? `${prefix}/` : pathname
+      if (prefix) {
+        if (!pathname.startsWith(`${prefix}/`) && pathname !== prefix) {
+          throw new StoragePathError('URL is outside the public prefix')
+        }
+        return pathname === prefix ? `${prefix}/` : pathname
+      }
+      return pathname
     },
     storageKey(value) {
       const pathname = this.normalizeUrl(value)
-      return pathname.slice(prefix.length).replace(/^\/+/, '')
+      if (prefix) {
+        return pathname.slice(prefix.length).replace(/^\/+/, '')
+      }
+      return pathname.replace(/^\/+/, '')
     },
     relativeUrl(key) {
-      if (typeof key !== 'string' || !key || key.includes('\\') || key.split('/').includes('..')) throw new StoragePathError('Invalid storage key')
-      return `${prefix}/${key.replace(/^\/+/, '')}`
+      if (typeof key !== 'string' || !key || key.includes('\\') || key.split('/').includes('..')) {
+        throw new StoragePathError('Invalid storage key')
+      }
+      const cleanKey = key.replace(/^\/+/, '')
+      return prefix ? `${prefix}/${cleanKey}` : `/${cleanKey}`
     },
     parts(value) {
       const pathname = this.normalizeUrl(value)

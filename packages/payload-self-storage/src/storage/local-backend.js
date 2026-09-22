@@ -56,12 +56,19 @@ export class StorageCollisionError extends Error {}
 /**
  * @param {Object} options
  * @param {string} options.rootDir
+ * @param {string} [options.thumbnailsDir]
  * @param {string} [options.publicUrlPrefix]
  * @param {boolean} [options.legacyLookup]
  * @param {'reject'|'overwrite'} [options.collision]
  * @returns {LocalBackend}
  */
-export function createLocalFilesystemBackend({ rootDir, publicUrlPrefix = '/media', legacyLookup = true, collision = 'reject' }) {
+export function createLocalFilesystemBackend({
+  rootDir,
+  thumbnailsDir,
+  publicUrlPrefix = '/media',
+  legacyLookup = true,
+  collision = 'reject',
+}) {
   if (!rootDir) throw new TypeError('rootDir is required')
   const policy = createPathPolicy({ publicUrlPrefix })
   const filePath = (url) => path.join(rootDir, policy.storageKey(url))
@@ -124,6 +131,30 @@ export function createLocalFilesystemBackend({ rootDir, publicUrlPrefix = '/medi
         return false
       }
     },
-    async *list() { yield* [] }
+    async *list() {
+      const resolvedThumbsDir = thumbnailsDir ? path.resolve(thumbnailsDir) : path.resolve(rootDir, '.thumbnails')
+      async function* walk(dir) {
+        let entries = []
+        try { entries = await readdir(dir, { withFileTypes: true }) } catch { return }
+        for (const entry of entries) {
+          if (entry.name.startsWith('.')) continue
+          const full = path.join(dir, entry.name)
+          if (path.resolve(full) === resolvedThumbsDir || path.resolve(full).startsWith(resolvedThumbsDir + path.sep)) {
+            continue
+          }
+          if (entry.isDirectory()) {
+            yield* walk(full)
+          } else if (entry.isFile()) {
+            const relPath = path.relative(rootDir, full).replaceAll('\\', '/')
+            yield {
+              storageKey: relPath,
+              relativeUrl: policy.relativeUrl(relPath),
+              path: full,
+            }
+          }
+        }
+      }
+      yield* walk(rootDir)
+    }
   }
 }

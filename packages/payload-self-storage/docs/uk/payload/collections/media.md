@@ -22,6 +22,31 @@
 
 ---
 
+## Налаштування роутингу у Next.js App Router
+
+У Payload CMS 3.x кастомні `endpoints` змонтовані під префіксом `/api/...`.
+Якщо у конфігурації вказано прямий публічний префікс (наприклад, `publicUrlPrefix: '/media'`), для роздачі файлів на фронтенді та генерації мініатюр на льоту створіть файл Route Handler:
+
+**Шлях до файлу:** `src/app/(frontend)/media/[...path]/route.ts` (або `src/app/media/[...path]/route.ts`)
+
+```ts
+import { createMediaRouteHandler } from '@nan0web/payload-self-storage'
+import path from 'node:path'
+
+export const GET = createMediaRouteHandler({
+  rootDir: path.resolve(process.cwd(), 'storage'),
+  publicUrlPrefix: '/media',
+})
+```
+
+### Автоматична діагностика
+Плагін перевіряє наявність цього файлу при старті Payload. Якщо `publicUrlPrefix` вказує не на `/api` і роут відсутній, у консолі сервера з'явиться попередження:
+```
+[payload-self-storage] ⚠️  Next.js Route Handler not found for "/media". Requests to /media/* will 404 until you create app/media/[...path]/route.ts using createMediaRouteHandler.
+```
+
+---
+
 ## Поля колекції
 
 | Поле | Тип | Опис |

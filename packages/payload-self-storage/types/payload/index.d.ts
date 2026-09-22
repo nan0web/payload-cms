@@ -1,4 +1,3 @@
-export { createUrlResolver } from "./url-resolver.js";
 export { payloadSelfStorage } from "./plugin.js";
 export { folderId, resolveFolderPath, resolveTargetFolder } from "./folder-resolver.js";
 export { fileEntries, stripDuplicateSuffix, cleanAltFromFilename, computeFileMetadata, moveDocumentFiles } from "./file-mover.js";

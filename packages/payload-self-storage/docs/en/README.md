@@ -18,21 +18,52 @@ Self-hosted filesystem storage adapter, fast hash deduplication, multi-extension
 
 ## Setup
 
-```js
+### 1. Configure Plugin in `payload.config.ts`
+
+```ts
 import { buildConfig } from 'payload'
 import { payloadSelfStorage } from '@nan0web/payload-self-storage'
+import path from 'node:path'
 
-const withStorage = payloadSelfStorage({
-  rootDir: './storage',
+export default payloadSelfStorage({
+  rootDir: path.resolve(process.cwd(), 'storage'),
   publicUrlPrefix: '/media',
-  publicOrigin: 'http://localhost:3000',
   collections: ['media'],
-  convertImageSizesToWebp: true,
-})
-
-export default withStorage(buildConfig({
+  lazySizes: true,
+})(buildConfig({
   // Payload config
 }))
+```
+
+### 2. Next.js App Router Route Handler
+
+In Payload 3.x (Next.js App Router), plugin `endpoints` are mounted under `/api/...`.
+If you want clean, direct URLs (such as `/media/*`), create a single-line catch-all route handler in your Next.js application:
+
+**`src/app/(frontend)/media/[...path]/route.ts`** (or `src/app/media/[...path]/route.ts`):
+```ts
+import { createMediaRouteHandler } from '@nan0web/payload-self-storage'
+import path from 'node:path'
+
+export const GET = createMediaRouteHandler({
+  rootDir: path.resolve(process.cwd(), 'storage'),
+  publicUrlPrefix: '/media',
+})
+```
+
+> **Automatic Diagnostic & Warning:**
+> If `publicUrlPrefix` does not start with `/api` and no matching `route.ts` is detected, the plugin automatically logs a warning in the server console on Payload initialization and sets `admin.custom.selfStorage.routeWarning`.
+
+### 3. Static Site Generation (SSG)
+
+Before running static export, synchronize all files and thumbnails to the distribution directory:
+```ts
+import { syncStorageToDist } from '@nan0web/payload-self-storage'
+
+await syncStorageToDist({
+  rootDir: './storage',
+  targetDir: './public/media', // or './out/media'
+})
 ```
 
 ## Developer & Agent References

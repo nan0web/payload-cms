@@ -18,22 +18,52 @@
 
 ## Використання
 
-```js
+### 1. Підключення плагіна в `payload.config.ts`
+
+```ts
 import { buildConfig } from 'payload'
 import { payloadSelfStorage } from '@nan0web/payload-self-storage'
+import path from 'node:path'
 
-const withStorage = payloadSelfStorage({
-  rootDir: './storage',
+export default payloadSelfStorage({
+  rootDir: path.resolve(process.cwd(), 'storage'),
   publicUrlPrefix: '/media',
-  publicOrigin: 'http://localhost:3000',
   collections: ['media'],
-  convertImageSizesToWebp: true,
-  collision: 'overwrite', // або 'reject'
-})
-
-export default withStorage(buildConfig({
-  // конфігурація Payload
+  lazySizes: true,
+})(buildConfig({
+  // ваша конфігурація Payload
 }))
+```
+
+### 2. Підключення роутингу для фронтенду у Next.js App Router
+
+У Payload 3.x (Next.js App Router) кастомні `endpoints` змонтовані під `/api/...`.
+Якщо ви використовуєте чистий URL-префікс (наприклад, `/media`), створіть однорядковий Route Handler у вашому Next.js додатку:
+
+**`src/app/(frontend)/media/[...path]/route.ts`** (або `src/app/media/[...path]/route.ts`):
+```ts
+import { createMediaRouteHandler } from '@nan0web/payload-self-storage'
+import path from 'node:path'
+
+export const GET = createMediaRouteHandler({
+  rootDir: path.resolve(process.cwd(), 'storage'),
+  publicUrlPrefix: '/media',
+})
+```
+
+> **Автоматична діагностика та попередження:**
+> Якщо `publicUrlPrefix` не починається з `/api` і відповідний файл `route.ts` не знайдено, плагін автоматично виведе попередження в консоль сервера під час старту Payload та зафіксує його в метаданих адмінки (`admin.custom.selfStorage.routeWarning`).
+
+### 3. Робота з SSG (Static Site Generation)
+
+Перед запуском статичної генерації або для експорту асетів можна викликати утиліту синхронізації:
+```ts
+import { syncStorageToDist } from '@nan0web/payload-self-storage'
+
+await syncStorageToDist({
+  rootDir: './storage',
+  targetDir: './public/media', // або './out/media'
+})
 ```
 
 ## Документація для розробників та агентів

@@ -19,6 +19,9 @@ export function folderId(folder) {
  */
 export async function resolveFolderPath(folder, req) {
 	if (!folder) return ''
+	if (typeof folder === 'string' && folder.includes('/')) {
+		return folder.replace(/^\/+|\/+$/g, '')
+	}
 	const parts = []
 	let current = folder
 	const seen = new Set()

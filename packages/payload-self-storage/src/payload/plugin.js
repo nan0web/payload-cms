@@ -3,16 +3,36 @@
  * Payload remains an optional peer integration: no Payload import is required.
  */
 import { createLocalFilesystemBackend } from '../storage/local-backend.js'
-import { createRedirect } from '../redirects/redirect-store.js'
 import path from 'node:path'
-import { resolveFolderPath } from './folder-resolver.js'
-import { moveDocumentFiles } from './file-mover.js'
+import fs from 'node:fs'
 import { createUploadHandler, serveStorageFile } from './file-server.js'
+import { beforeChangeHook, afterDeleteHook, afterChangeHook, afterReadHook } from './hooks.js'
+
+/**
+ * Checks if a Next.js App Router Route Handler exists for the given publicUrlPrefix.
+ *
+ * @param {string} publicUrlPrefix
+ * @returns {boolean}
+ */
+export function checkMediaRouteHandler(publicUrlPrefix) {
+	if (!publicUrlPrefix || publicUrlPrefix.startsWith('/api')) return true
+	const cleanPrefix = publicUrlPrefix.replace(/^\/+|\/+$/g, '')
+	const cwd = process.cwd()
+	const possiblePaths = [
+		path.join(cwd, 'src', 'app', cleanPrefix, '[...path]', 'route.ts'),
+		path.join(cwd, 'src', 'app', cleanPrefix, '[...path]', 'route.js'),
+		path.join(cwd, 'src', 'app', '(frontend)', cleanPrefix, '[...path]', 'route.ts'),
+		path.join(cwd, 'src', 'app', '(frontend)', cleanPrefix, '[...path]', 'route.js'),
+		path.join(cwd, 'app', cleanPrefix, '[...path]', 'route.ts'),
+		path.join(cwd, 'app', cleanPrefix, '[...path]', 'route.js'),
+	]
+	return possiblePaths.some((p) => fs.existsSync(p))
+}
 
 /**
  * @typedef {Object} PayloadSelfStorageOptions
- * @property {string} [publicOrigin]
- * @property {string} [rootDir]
+ * @property {string} rootDir
+ * @property {string} [thumbnailsDir='.thumbnails']
  * @property {string[]} [collections]
  * @property {string} [publicUrlPrefix]
  * @property {boolean} [legacyLookup]
@@ -23,16 +43,26 @@ import { createUploadHandler, serveStorageFile } from './file-server.js'
  * @property {string} [cacheControl]
  * @property {string[]} [thumbnailFormats]
  * @property {boolean} [isolateRouting]
- * @property {(redirect: object) => Promise<void>} [onRedirect]
+ * @property {(redirect: any) => Promise<void> | void} [onRedirect]
+ */
+
+/**
+ * @typedef {Object} PayloadPluginProps
+ * @property {import('../storage/local-backend.js').LocalBackend} backend
+ * @property {string} rootDir
+ */
+
+/**
+ * @typedef {((config: any) => any) & PayloadPluginProps} PayloadPluginFunction
  */
 
 /**
  * @param {PayloadSelfStorageOptions} options
- * @returns {<T>(config: T) => T}
+ * @returns {PayloadPluginFunction}
  */
 export function payloadSelfStorage({
 	rootDir,
-	publicOrigin,
+	thumbnailsDir = '.thumbnails',
 	collections = ['media'],
 	publicUrlPrefix = '/media',
 	legacyLookup = true,
@@ -43,16 +73,18 @@ export function payloadSelfStorage({
 	cacheControl,
 	thumbnailFormats,
 	isolateRouting = true,
-	onRedirect = async () => {},
-} = {}) {
+	onRedirect = async (_redirect) => {},
+}) {
 	const backend = createLocalFilesystemBackend({
 		rootDir,
+		thumbnailsDir,
 		publicUrlPrefix,
 		legacyLookup,
 		collision,
 	})
 
 	const fileServerOptions = {
+		...(thumbnailsDir ? { thumbnailsDir } : {}),
 		...(mimeTypes ? { mimeTypes } : {}),
 		...(cacheControl ? { cacheControl } : {}),
 		...(thumbnailFormats ? { thumbnailFormats } : {}),
@@ -77,9 +109,25 @@ export function payloadSelfStorage({
 			const hasSelfManualRegistration = existingManualDocs.some(
 				(d) => d?.source === '@nan0web/payload-self-storage'
 			)
+			const hasRouteHandler = checkMediaRouteHandler(publicUrlPrefix)
+			const cleanPrefix = (publicUrlPrefix || '').replace(/^\/+|\/+$/g, '')
+			const routeWarning = !hasRouteHandler
+				? `Next.js Route Handler not found for "${publicUrlPrefix}". Requests to ${publicUrlPrefix}/* will 404 until you create app/${cleanPrefix}/[...path]/route.ts using createMediaRouteHandler.`
+				: null
+
+			const existingOnInit = resolvedConfig.onInit
+			const wrappedOnInit = async (payload) => {
+				if (existingOnInit) {
+					await existingOnInit(payload)
+				}
+				if (routeWarning) {
+					payload?.logger?.warn?.(`[payload-self-storage] ⚠️  ${routeWarning}`)
+				}
+			}
 
 			return {
 				...resolvedConfig,
+				onInit: wrappedOnInit,
 				admin: {
 					...(resolvedConfig.admin || {}),
 					custom: {
@@ -88,10 +136,12 @@ export function payloadSelfStorage({
 							enabled: true,
 							name: '@nan0web/payload-self-storage',
 							title: 'Self Storage',
-							version: '0.2.0',
+							version: '0.3.0',
 							status: 'active',
 							hasDocs: true,
 							docsDir: packageDocsDir,
+							hasRouteHandler,
+							routeWarning,
 						},
 					},
 				},
@@ -156,6 +206,13 @@ export function payloadSelfStorage({
 									},
 								}))
 							: rawImageSizes
+					const hookContext = {
+						backend,
+						publicUrlPrefix,
+						rootDir,
+						convertToWebp: convertImageSizesToWebp,
+						onRedirect,
+					}
 
 					return {
 						...collection,
@@ -173,6 +230,11 @@ export function payloadSelfStorage({
 							filenameCompoundIndex,
 							staticDir: rootDir,
 							staticURL: publicUrlPrefix,
+							adminThumbnail:
+								uploadConfig.adminThumbnail ||
+								(({ doc }) => {
+									return doc?.sizes?.thumbnail?.url || doc?.thumbnailURL || doc?.url
+								}),
 							...(convertImageSizesToWebp
 								? {
 										formatOptions: {
@@ -185,83 +247,28 @@ export function payloadSelfStorage({
 							createParentPath: true,
 							handlers: [...(collection.upload?.handlers || []), serveUploadFile],
 						},
+						endpoints: [
+							...(Array.isArray(collection.endpoints) ? collection.endpoints : []),
+							...(isolateRouting
+								? [
+										{
+											path: '/file/:path*',
+											method: 'get',
+											handler: async (req) => {
+												const url = req?.url || ''
+												return serveStorageFile(backend, rootDir, url, fileServerOptions)
+											},
+										},
+									]
+								: []),
+						],
 
 						hooks: {
 							...hooks,
-							afterRead: [
-								...(hooks.afterRead || []),
-								async ({ doc, req }) => {
-									if (!doc?.filename && !doc?.url) return doc
-									const sourcePath = doc.sourcePath
-									let folderPath = ''
-									if (sourcePath && typeof sourcePath === 'string') {
-										const clean = sourcePath.replace(/^\/+/, '')
-										const dir = path.dirname(clean)
-										folderPath = dir === '.' ? '' : dir
-									} else if (doc.folder) {
-										folderPath = await resolveFolderPath(doc.folder, req)
-									}
-
-									if (folderPath && doc.url && !doc.url.includes(`/${folderPath}/`)) {
-										const base = path.basename(doc.url)
-										const cleanPrefix = publicUrlPrefix.replace(/\/+$/, '')
-										doc.url = `${cleanPrefix}/${folderPath}/${base}`
-									}
-									return doc
-								},
-							],
-							beforeChange: [
-								...(hooks.beforeChange || []),
-								async ({ doc, req }) => {
-									if (!doc?.filename && !doc?.url) return doc
-									return await moveDocumentFiles({
-										backend,
-										doc,
-										req,
-										publicUrlPrefix,
-										rootDir,
-										convertToWebp: convertImageSizesToWebp,
-									})
-								},
-							],
-							afterDelete: [
-								...(hooks.afterDelete || []),
-								async ({ doc }) => {
-									if (doc?.url) await backend.delete(doc.url).catch(() => {})
-								},
-							],
-							afterChange: [
-								...(hooks.afterChange || []),
-								async ({ doc, previousDoc, req }) => {
-									if (!doc?.url && !doc?.filename) return doc
-									const moved = await moveDocumentFiles({
-										backend,
-										doc,
-										req,
-										publicUrlPrefix,
-										rootDir,
-										convertToWebp: convertImageSizesToWebp,
-									})
-									if (previousDoc?.url && moved?.url && moved.url !== previousDoc.url) {
-										if (await backend.exists(previousDoc.url).catch(() => false)) {
-											await backend.move(previousDoc.url, moved.url).catch(() => {})
-										}
-										await onRedirect(createRedirect({ from: previousDoc.url, to: moved.url }))
-										if (req?.payload && req.payload.create) {
-											await req.payload
-												.create({
-													collection: 'redirects',
-													data: {
-														from: previousDoc.url,
-														to: { type: 'custom', url: moved.url },
-													},
-												})
-												.catch(() => {})
-										}
-									}
-									return moved
-								},
-							],
+							afterRead: [...(hooks.afterRead || []), afterReadHook(hookContext)],
+							beforeChange: [...(hooks.beforeChange || []), beforeChangeHook(hookContext)],
+							afterDelete: [...(hooks.afterDelete || []), afterDeleteHook(hookContext)],
+							afterChange: [...(hooks.afterChange || []), afterChangeHook(hookContext)],
 						},
 					}
 				}),
@@ -273,7 +280,7 @@ export function payloadSelfStorage({
 									path: `${publicUrlPrefix}/:path*`,
 									method: 'get',
 									handler: async (req) => {
-										const url = req?.url || ''
+										const url = req?.url || req?.pathname || ''
 										return serveStorageFile(backend, rootDir, url, fileServerOptions)
 									},
 								},

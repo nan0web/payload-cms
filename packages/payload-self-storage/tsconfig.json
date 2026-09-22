@@ -16,7 +16,7 @@
 		"allowSyntheticDefaultImports": true,
 		"noImplicitAny": false,
 		"allowJs": true,
-		"checkJs": false
+		"checkJs": true
 	},
 	"include": ["src/**/*"],
 	"exclude": [

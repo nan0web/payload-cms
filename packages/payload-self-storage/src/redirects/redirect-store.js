@@ -4,7 +4,10 @@ export function createRedirect({ from, to, statusCode = 302, expiresAt = null, r
   return { from, to, statusCode, expiresAt, resourceType, createdAt: new Date(), updatedAt: new Date() }
 }
 
-export function createRedirectResolver({ lookup, authorize = async () => true }) {
+/**
+ * @param {{ lookup: (url: string) => Promise<any>, authorize?: (to: string, context?: any) => Promise<boolean> | boolean }} options
+ */
+export function createRedirectResolver({ lookup, authorize = async (_to, _context) => true }) {
   return async function resolve(url, context) {
     const redirect = await lookup(url)
     if (!redirect || (redirect.expiresAt && new Date(redirect.expiresAt) <= new Date())) return null

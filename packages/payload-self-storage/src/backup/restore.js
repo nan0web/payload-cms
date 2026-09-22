@@ -6,8 +6,12 @@ async function digest(stream) {
   return hash.digest('hex')
 }
 
-/** Restore records one at a time without loading the full index in memory. */
+/** 
+ * Restore records one at a time without loading the full index in memory. 
+ * @param {{ source: any, destination: any, records: AsyncIterable<any> | Iterable<any>, verify?: boolean, dryRun?: boolean }} options
+ */
 export async function restoreFiles({ source, destination, records, verify = false, dryRun = false }) {
+  /** @type {{ restored: number, missing: string[], changed: Array<{ storageKey: string, expected: string, actual: string }>, orphan: string[] }} */
   const report = { restored: 0, missing: [], changed: [], orphan: [] }
   const expected = new Set()
   for await (const record of records) {

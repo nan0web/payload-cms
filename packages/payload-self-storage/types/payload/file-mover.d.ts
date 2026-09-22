@@ -8,7 +8,8 @@ export function fileEntries(doc: any): Array<{
     file: any;
 }>;
 /**
- * Strips duplicate suffixes like -1, -2 appended by collision handlers.
+ * Strips duplicate suffixes like -1, -2 appended by collision handlers,
+ * taking care not to strip dimensions like -300x225.
  * @param {string} basename
  * @returns {string}
  */
@@ -24,12 +25,12 @@ export function cleanAltFromFilename(filename: string): string;
  *
  * @param {any} file
  * @param {string} url
- * @param {string} publicUrlPrefix
+ * @param {string} [publicUrlPrefix]
  * @param {string} [customBasename]
  * @param {boolean} [convertToWebp=true]
  * @returns {any}
  */
-export function computeFileMetadata(file: any, url: string, publicUrlPrefix: string, customBasename?: string, convertToWebp?: boolean): any;
+export function computeFileMetadata(file: any, url: string, publicUrlPrefix?: string, customBasename?: string, convertToWebp?: boolean): any;
 /**
  * Moves document files to their canonical physical folder paths and deduplicates.
  *
@@ -37,7 +38,7 @@ export function computeFileMetadata(file: any, url: string, publicUrlPrefix: str
  * @param {any} params.backend
  * @param {any} params.doc
  * @param {any} params.req
- * @param {string} params.publicUrlPrefix
+ * @param {string} [params.publicUrlPrefix]
  * @param {string} [params.rootDir]
  * @param {boolean} [params.convertToWebp=true]
  * @returns {Promise<any>}
@@ -46,7 +47,7 @@ export function moveDocumentFiles({ backend, doc, req, publicUrlPrefix, convertT
     backend: any;
     doc: any;
     req: any;
-    publicUrlPrefix: string;
+    publicUrlPrefix?: string | undefined;
     rootDir?: string | undefined;
     convertToWebp?: boolean | undefined;
 }): Promise<any>;

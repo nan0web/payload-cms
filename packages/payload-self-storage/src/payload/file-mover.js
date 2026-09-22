@@ -16,11 +16,18 @@ export function fileEntries(doc) {
 }
 
 /**
- * Strips duplicate suffixes like -1, -2 appended by collision handlers.
+ * Strips duplicate suffixes like -1, -2 appended by collision handlers,
+ * taking care not to strip dimensions like -300x225.
  * @param {string} basename
  * @returns {string}
  */
 export function stripDuplicateSuffix(basename) {
+	// If it has dimensions like -300x225 or -1-300x225
+	const dimMatch = basename.match(/^(.+?)(?:-(\d+))?-(\d+x\d+)$/)
+	if (dimMatch) {
+		const [, namePart, , dims] = dimMatch
+		return `${namePart}-${dims}`
+	}
 	return basename.replace(/(-\d+)+$/, '')
 }
 
@@ -41,7 +48,7 @@ export function cleanAltFromFilename(filename) {
  *
  * @param {any} file
  * @param {string} url
- * @param {string} publicUrlPrefix
+ * @param {string} [publicUrlPrefix]
  * @param {string} [customBasename]
  * @param {boolean} [convertToWebp=true]
  * @returns {any}
@@ -67,12 +74,25 @@ export function computeFileMetadata(
 	const mimeType =
 		targetExt === '.webp' ? WEBP_MIME_TYPE : file.mimeType || 'application/octet-stream'
 
-	const filename = `${base}${targetExt}`
+	const filenameOnly = `${base}${targetExt}`
 	const dir = path.dirname(url)
-	const targetUrl = `${dir}/${filename}`
-	const prefix = publicUrlPrefix.endsWith('/') ? publicUrlPrefix : `${publicUrlPrefix}/`
-	const serverUrl = targetUrl.startsWith(prefix) ? targetUrl.slice(prefix.length) : targetUrl
-	return { ...file, filename: serverUrl, url: targetUrl, serverUrl, mimeType }
+	const targetUrl = `${dir}/${filenameOnly}`
+	const prefix = (publicUrlPrefix ?? '').replace(/^\/+|\/+$/g, '')
+	const cleanPrefixWithSlash = prefix ? `/${prefix}/` : '/'
+	let relativeFilename = targetUrl
+	if (prefix && relativeFilename.startsWith(`/${prefix}/`)) {
+		relativeFilename = relativeFilename.slice(`/${prefix}/`.length)
+	} else if (relativeFilename.startsWith('/')) {
+		relativeFilename = relativeFilename.slice(1)
+	}
+
+	return {
+		...file,
+		filename: relativeFilename,
+		url: targetUrl,
+		serverUrl: relativeFilename,
+		mimeType,
+	}
 }
 
 /**
@@ -82,7 +102,7 @@ export function computeFileMetadata(
  * @param {any} params.backend
  * @param {any} params.doc
  * @param {any} params.req
- * @param {string} params.publicUrlPrefix
+ * @param {string} [params.publicUrlPrefix]
  * @param {string} [params.rootDir]
  * @param {boolean} [params.convertToWebp=true]
  * @returns {Promise<any>}
@@ -125,27 +145,24 @@ export async function moveDocumentFiles({
 			(!rawExt || ['.jpg', '.jpeg', '.png', '.webp'].includes(rawExt.toLowerCase()))
 				? '.webp'
 				: rawExt)
-		const oldUrl = file.url || `${publicUrlPrefix}/${rawFilename}`
-		const flatUrl = `${publicUrlPrefix}/${path.basename(oldUrl)}`
+		const cleanOldBase = path.basename(file.url || rawFilename)
+		const flatUrl = `${publicUrlPrefix}/${cleanOldBase}`
 		const flatTargetUrl = `${publicUrlPrefix}/${base}${targetExt}`
 		const folderPrefix = folderPath
 			? `${publicUrlPrefix}/${folderPath}`
-			: file.url
+			: file.url && !file.url.startsWith('/api/')
 				? path.dirname(file.url)
 				: publicUrlPrefix
 		const newUrl = `${folderPrefix}/${base}${targetExt}`
 
 		// Find which source file exists on disk
 		let existingSourceUrl = null
-		if (await backend.exists(oldUrl).catch(() => false)) {
-			existingSourceUrl = oldUrl
-		} else if (
-			flatTargetUrl !== newUrl &&
-			(await backend.exists(flatTargetUrl).catch(() => false))
-		) {
+		if (flatTargetUrl !== newUrl && (await backend.exists(flatTargetUrl).catch(() => false))) {
 			existingSourceUrl = flatTargetUrl
 		} else if (flatUrl !== newUrl && (await backend.exists(flatUrl).catch(() => false))) {
 			existingSourceUrl = flatUrl
+		} else if (file.url && !file.url.startsWith('/api/') && (await backend.exists(file.url).catch(() => false))) {
+			existingSourceUrl = file.url
 		}
 
 		// Fast-Path Deduplication: Check if target file already exists and compare size + hash

@@ -22,5 +22,30 @@ Prevents duplicate suffixes (`-1`, `-2`):
 
 ---
 
+## Next.js App Router Setup
+
+In Payload CMS 3.x, plugin `endpoints` are mounted under `/api/...`.
+If your configuration uses a direct public prefix (e.g. `publicUrlPrefix: '/media'`), create a Next.js Route Handler for frontend delivery and on-demand thumbnail generation:
+
+**File location:** `src/app/(frontend)/media/[...path]/route.ts` (or `src/app/media/[...path]/route.ts`)
+
+```ts
+import { createMediaRouteHandler } from '@nan0web/payload-self-storage'
+import path from 'node:path'
+
+export const GET = createMediaRouteHandler({
+  rootDir: path.resolve(process.cwd(), 'storage'),
+  publicUrlPrefix: '/media',
+})
+```
+
+### Automatic Diagnostic
+The plugin automatically inspects your project layout on initialization. If `publicUrlPrefix` is outside `/api` and the route handler is missing, a warning is logged:
+```
+[payload-self-storage] ⚠️  Next.js Route Handler not found for "/media". Requests to /media/* will 404 until you create app/media/[...path]/route.ts using createMediaRouteHandler.
+```
+
+---
+
 ## Shortcuts
 - **`Cmd + /`** (macOS) or **`Ctrl + /`** (Windows/Linux) — open this manual.

@@ -1,6 +1,6 @@
 {
 	"name": "@nan0web/payload-self-storage",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"description": "Self-hosted filesystem storage adapter and backup foundation for Payload CMS.",
 	"license": "ISC",
 	"repository": {

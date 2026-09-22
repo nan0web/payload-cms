@@ -16,5 +16,4 @@ export {
 	DEFAULT_CACHE_CONTROL,
 	DEFAULT_THUMBNAIL_FORMATS,
 } from './file-server.js'
-export { createUrlResolver } from './url-resolver.js'
 export { payloadSelfStorage } from './plugin.js'
