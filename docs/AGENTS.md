@@ -59,6 +59,12 @@
 - **Model-First i18n:** Усі текстові ключі та конфігурації локалізації описуються в доменних моделях (`static UI = { ... }`). В UI-компонентах виклики здійснюються виключно через посилання на модель: `t(Model.UI.key)`.
 - **UI Styling Hygiene (No Heavy Inline Styles):** Уникати масивних інлайн-стилів `style={{ ... }}` та прямого хардкоду пікселів `px` (використовувати `rem` для масштабування та accessibility). Використовувати CSS-класи, CSS-модулі та дизайн-токені Payload CMS (`var(--theme-*)`).
 - **OLMUI (One Logic — Multiple User Interfaces):** Відокремлення ядерної логіки плагіна від UI-компонентів адмінки Payload (React/Next.js) та inline-скриптів (First Paint). React-компоненти мають бути автономними та легкими.
+- **SPA-First Client Navigation (Payload 3.x Standard):**
+  - Заборонено використовувати `window.location.assign()` або `window.location.href = ...` всередині клієнтських компонентів адмінки для внутрішніх посилань. Це спричиняє Hard Reload (повне перезавантаження браузера), знищує стан React Context, веде до миготіння та втрати активних оверлеїв/турів.
+  - Усі переходи між сторінками адмінки Payload CMS 3.x повинні здійснюватися виключно через клієнтський SPA-роутинг Next.js:
+    - Використовуйте `useRouter` з `next/navigation` (`router.push(targetUrl)`).
+    - Або нативний компонент `Link` з `@payloadcms/ui` (або `next/link`).
+    - Для плавних переходів з індикатором завантаження адмінки Payload інтегруйте `useRouteTransition` з `@payloadcms/ui`.
 - **DRY & Best Practices:** Дотримання принципів DRY (Don't Repeat Yourself), DevSecOps та чистих інженерних паттернів.
 
 
