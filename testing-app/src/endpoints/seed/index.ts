@@ -18,6 +18,7 @@ const collections: CollectionSlug[] = [
   'forms',
   'form-submissions',
   'search',
+  'releases',
 ]
 
 const globals: GlobalSlug[] = ['header', 'footer']
@@ -273,6 +274,86 @@ export const seed = async ({
       },
     }),
   ])
+
+  payload.logger.info('— Seeding initial release presentation (v0.1.0)...')
+  try {
+    const existingRelease = await payload.find({
+      collection: 'releases',
+      where: {
+        version: { equals: 'v0.1.0' },
+      },
+      limit: 1,
+    })
+
+    if (!existingRelease?.docs?.length) {
+      await payload.create({
+        collection: 'releases',
+        data: {
+        version: 'v0.1.0',
+        status: 'ok',
+        command: 'seed',
+        durationMs: 420,
+        gitSha: '9b7f21a',
+        gitDirty: false,
+        nodeVersion: process.version,
+        pnpmVersion: '10.34.0',
+        steps: [
+          {
+            name: 'Check Release Contract',
+            status: 'ok',
+            startedAt: new Date().toISOString(),
+            durationMs: 120,
+            output: '✔ All contract tests passed (5/5)',
+          },
+          {
+            name: 'Verify Database Schema',
+            status: 'ok',
+            startedAt: new Date().toISOString(),
+            durationMs: 85,
+            output: 'PostgreSQL collections and relations verified.',
+          },
+        ],
+        parity: [
+          {
+            collection: 'categories',
+            csvRows: 6,
+            dbRows: 6,
+            synced: true,
+          },
+          {
+            collection: 'posts',
+            csvRows: 3,
+            dbRows: 3,
+            synced: true,
+          },
+        ],
+        issues: [
+          {
+            level: 'info',
+            code: 'SEED_INITIALIZED',
+            source: '@nan0web/payload-release',
+            file: 'releases/0/1/v0.1.0/task.md',
+            message: 'Release presentation seeded cleanly with audit steps and files.',
+          },
+        ],
+        files: [
+          {
+            path: 'packages/payload-release/releases/0/1/v0.1.0/task.md',
+            size: 4449,
+            sha256: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
+          },
+          {
+            path: 'packages/payload-release/releases/0/1/v0.1.0/user.md',
+            size: 1024,
+            sha256: 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb',
+          },
+        ],
+      },
+    })
+    }
+  } catch (err: any) {
+    payload.logger.warn(`Could not seed release record: ${err?.message}`)
+  }
 
   payload.logger.info('Seeded database successfully!')
 }

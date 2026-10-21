@@ -69,6 +69,31 @@ importers:
         specifier: ^5.61.0
         version: 5.88.1(@types/node@22.19.9)(typescript@5.9.3)
 
+  packages/payload-release:
+    dependencies:
+      '@nan0web/types':
+        specifier: ^3.4.0
+        version: 3.4.0
+      '@payloadcms/ui':
+        specifier: '>=3.0.0'
+        version: 3.87.1(monaco-editor@0.56.0)(next@16.3.5(@playwright/test@1.58.2)(@types/node@22.19.9)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(sass@1.77.4))(payload@3.87.1(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@5.9.3)
+      markdown-it:
+        specifier: ^14.1.0
+        version: 14.3.0
+      payload:
+        specifier: '>=3.0.0'
+        version: 3.87.1(graphql@16.14.2)(typescript@5.9.3)
+      react:
+        specifier: '>=18.0.0'
+        version: 19.2.6
+    devDependencies:
+      husky:
+        specifier: ^9.1.7
+        version: 9.1.7
+      knip:
+        specifier: ^5.61.0
+        version: 5.88.1(@types/node@22.19.9)(typescript@5.9.3)
+
   packages/payload-self-manual:
     dependencies:
       '@nan0web/types':
@@ -128,6 +153,9 @@ importers:
       '@nan0web/payload-keyboard-accessibility':
         specifier: workspace:*
         version: link:../packages/payload-keyboard-accessibility
+      '@nan0web/payload-release':
+        specifier: workspace:*
+        version: link:../packages/payload-release
       '@nan0web/payload-self-manual':
         specifier: workspace:*
         version: link:../packages/payload-self-manual
@@ -7179,6 +7207,41 @@ snapshots:
       scheduler: 0.25.0
       sonner: 1.7.4(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       ts-essentials: 10.0.3(typescript@5.7.3)
+      use-context-selector: 2.0.0(react@19.2.6)(scheduler@0.25.0)
+      uuid: 13.0.2
+    transitivePeerDependencies:
+      - '@types/react'
+      - monaco-editor
+      - supports-color
+      - typescript
+
+  '@payloadcms/ui@3.87.1(monaco-editor@0.56.0)(next@16.3.5(@playwright/test@1.58.2)(@types/node@22.19.9)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(sass@1.77.4))(payload@3.87.1(graphql@16.14.2)(typescript@5.9.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@5.9.3)':
+    dependencies:
+      '@date-fns/tz': 1.2.0
+      '@dnd-kit/core': 6.3.1(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      '@dnd-kit/sortable': 10.0.0(@dnd-kit/core@6.3.1(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)
+      '@dnd-kit/utilities': 3.2.2(react@19.2.6)
+      '@faceless-ui/modal': 3.0.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      '@faceless-ui/scroll-info': 2.0.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      '@faceless-ui/window-info': 3.0.1(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      '@monaco-editor/react': 4.7.0(monaco-editor@0.56.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      '@payloadcms/translations': 3.87.1
+      bson-objectid: 2.0.4
+      date-fns: 4.1.0
+      dequal: 2.0.3
+      md5: 2.3.0
+      next: 16.3.5(@babel/core@7.29.7)(@playwright/test@1.58.2)(@types/node@22.19.9)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(sass@1.77.4)
+      object-to-formdata: 4.5.1
+      payload: 3.87.1(graphql@16.14.2)(typescript@5.9.3)
+      qs-esm: 8.0.1
+      react: 19.2.6
+      react-datepicker: 7.6.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      react-dom: 19.2.6(react@19.2.6)
+      react-image-crop: 10.1.8(react@19.2.6)
+      react-select: 5.9.0(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      scheduler: 0.25.0
+      sonner: 1.7.4(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      ts-essentials: 10.0.3(typescript@5.9.3)
       use-context-selector: 2.0.0(react@19.2.6)(scheduler@0.25.0)
       uuid: 13.0.2
     transitivePeerDependencies:

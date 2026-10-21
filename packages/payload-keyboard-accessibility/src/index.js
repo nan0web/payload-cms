@@ -94,8 +94,12 @@ export function payloadKeyboardFocus(options = {}) {
     const existing = config?.admin?.components?.beforeNav || []
     let packageDocsDir = 'docs'
     try {
-      const docsRel = '..' + '/docs'
-      packageDocsDir = new URL(docsRel, import.meta.url).pathname
+      if (typeof import.meta?.url === 'string') {
+        const currentFilePath = new URL(import.meta.url).pathname
+        const currentDirPath = currentFilePath.slice(0, currentFilePath.lastIndexOf('/'))
+        const parentDirPath = currentDirPath.slice(0, currentDirPath.lastIndexOf('/'))
+        packageDocsDir = `${parentDirPath}/docs`
+      }
     } catch {
       // Browser or non-URL environment fallback
     }

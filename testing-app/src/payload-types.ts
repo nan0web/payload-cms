@@ -76,6 +76,7 @@ export interface Config {
     forms: Form;
     'form-submissions': FormSubmission;
     search: Search;
+    releases: Release;
     'payload-kv': PayloadKv;
     'payload-jobs': PayloadJob;
     'payload-folders': FolderInterface;
@@ -98,6 +99,7 @@ export interface Config {
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     search: SearchSelect<false> | SearchSelect<true>;
+    releases: ReleasesSelect<false> | ReleasesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-folders': PayloadFoldersSelect<false> | PayloadFoldersSelect<true>;
@@ -860,6 +862,76 @@ export interface Search {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "releases".
+ */
+export interface Release {
+  id: number;
+  version: string;
+  status?: ('ok' | 'failed') | null;
+  command?: ('seed' | 'fresh' | 'migrate') | null;
+  durationMs?: number | null;
+  gitSha?: string | null;
+  gitDirty?: boolean | null;
+  nodeVersion?: string | null;
+  pnpmVersion?: string | null;
+  tour?: {
+    version?: string | null;
+    title?: string | null;
+    steps?:
+      | {
+          step?: number | null;
+          route?: string | null;
+          action?: string | null;
+          position?: string | null;
+          target?: string | null;
+          title?: string | null;
+          content?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  steps?:
+    | {
+        name: string;
+        status?: ('ok' | 'error') | null;
+        startedAt?: string | null;
+        durationMs?: number | null;
+        output?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  parity?:
+    | {
+        collection: string;
+        csvRows?: number | null;
+        dbRows?: number | null;
+        synced?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  issues?:
+    | {
+        level?: ('info' | 'warning' | 'error') | null;
+        code?: string | null;
+        source?: string | null;
+        file?: string | null;
+        message: string;
+        id?: string | null;
+      }[]
+    | null;
+  files?:
+    | {
+        path: string;
+        size?: number | null;
+        sha256?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -1009,6 +1081,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'search';
         value: number | Search;
+      } | null)
+    | ({
+        relationTo: 'releases';
+        value: number | Release;
       } | null)
     | ({
         relationTo: 'payload-folders';
@@ -1549,6 +1625,77 @@ export interface SearchSelect<T extends boolean = true> {
         relationTo?: T;
         categoryID?: T;
         title?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "releases_select".
+ */
+export interface ReleasesSelect<T extends boolean = true> {
+  version?: T;
+  status?: T;
+  command?: T;
+  durationMs?: T;
+  gitSha?: T;
+  gitDirty?: T;
+  nodeVersion?: T;
+  pnpmVersion?: T;
+  tour?:
+    | T
+    | {
+        version?: T;
+        title?: T;
+        steps?:
+          | T
+          | {
+              step?: T;
+              route?: T;
+              action?: T;
+              position?: T;
+              target?: T;
+              title?: T;
+              content?: T;
+              id?: T;
+            };
+      };
+  steps?:
+    | T
+    | {
+        name?: T;
+        status?: T;
+        startedAt?: T;
+        durationMs?: T;
+        output?: T;
+        id?: T;
+      };
+  parity?:
+    | T
+    | {
+        collection?: T;
+        csvRows?: T;
+        dbRows?: T;
+        synced?: T;
+        id?: T;
+      };
+  issues?:
+    | T
+    | {
+        level?: T;
+        code?: T;
+        source?: T;
+        file?: T;
+        message?: T;
+        id?: T;
+      };
+  files?:
+    | T
+    | {
+        path?: T;
+        size?: T;
+        sha256?: T;
         id?: T;
       };
   updatedAt?: T;

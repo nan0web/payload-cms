@@ -38,4 +38,11 @@ test.describe('Admin Panel', () => {
     const editViewArtifact = page.locator('input[name="title"]')
     await expect(editViewArtifact).toBeVisible()
   })
+
+  test('can navigate to releases collection view', async () => {
+    await page.goto('http://localhost:3000/admin/collections/releases')
+    await expect(page).toHaveURL('http://localhost:3000/admin/collections/releases')
+    const releasesHeader = page.locator('h1', { hasText: 'Releases' }).first()
+    await expect(releasesHeader).toBeVisible()
+  })
 })
