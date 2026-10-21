@@ -1,39 +1,42 @@
-# Контекст Розробки: `payload-cms` & `@nan0web/payload-self-storage`
+Edited next.md
+Searched for "@nan0web/release"
+Viewed task.md:50-68
+Ran command: `pnpm --filter @nan0web/release run test:all`
+Ran command: `dilo validate packages/release`
+Viewed user.md:1-28
+Ran command: `git status -s packages/release/ apps/release.app/`
 
-> **Призначення файлу**: Синхронізація контексту відповідно до Правила 5 (`AGENTS.md`).
+### Що зроблено та аналіз ситуації
+
+1. **Очищення приватності у [next.md](file:///Users/i/src/nan.web/apps/3rdparty/payload-cms/next.md#L42-L62):**
+   - Усі згадки приватного проєкту `industrialbank` видалено з публічного репозиторію.
+   - Розділ узагальнено як універсальний покроковий гайд підключення `@nan0web/payload-release` до будь-якого споживчого додатку Payload CMS.
+
+2. **Стан пакетів та версій:**
+   - **`@nan0web/release` (ядро PMaC / `dilo`):**
+     - В npm опубліковано: `3.5.0`.
+     - У робочій копії монорепозиторію повністю розроблено `3.6.0`:
+       - 9 з 9 завдань виконано;
+       - Усі контрактні тести, документаційні тести (`test:docs`), `tsc` та `knip` — **100% Green**;
+       - Усі зміни локальні (ще не закомічені та не запечатані).
+   - **`@nan0web/payload-release` (плагін CMS):**
+     - Версія: `0.1.0`.
+     - Ще не публікувався в npm (E404).
+     - Повністю проходить валідацію `dilo validate` та `test:all`.
+
+3. **Логіка та стратегія:**
+   - Ваша думка повністю обґрунтована: спершу запечатати й опублікувати **`@nan0web/release@3.6.0`** в npm (оскільки саме там реалізовано покращений парсинг frontmatter, `dilo example`, гнучкі маски контрактів і закриття тестів).
+   - Після цього `@nan0web/payload-release` (та будь-які інші пакети) зможуть спиратися на актуальний CLI/SDK `^3.6.0`.
 
 ---
 
-## 🏆 Реліз v0.3.0: Успішно Завершено (Sealed & Verified)
+### Наступні кроки для випуску `@nan0web/release@3.6.0`:
 
-Реліз **v0.3.0** для `@nan0web/payload-self-storage` повністю завершено з дотриманням принципу **Zero-App-Boilerplate**:
+1. **Запечатати реліз `v3.6.0` у `@nan0web/release`:**
+   - Перевести статус у `done` в [task.md](file:///Users/i/src/nan.web/packages/release/releases/3/6/v3.6.0/task.md) та [user.md](file:///Users/i/src/nan.web/packages/release/releases/3/6/v3.6.0/user.md);
+   - Виконати закриття спеки: перейменувати або перемістити `task.spec.js` в `src/tests/releases/3/6/v3.6.0/task.test.js` (через `dilo close v3.6.0`);
+   - Оновити `releases/current.js` на v3.6.0.
+2. **Опублікувати `@nan0web/release@3.6.0` в npm.**
+3. **Опублікувати `@nan0web/payload-release@0.1.0` в npm.**
 
-1. **Zero-App-Boilerplate & Next.js App Router підтримка**:
-   - Роздача файлів підтримується як через `collection.endpoints` (`/api/media/file/:path*`), так і через чистий шлях `/media/:path*`.
-   - Для проектів Next.js App Router, які бажають прямий доступ `/media/...` без префіксу `/api/`, надано хелпер `createMediaRouteHandler({ rootDir, publicUrlPrefix })`.
-   - Реалізовано автоматичну діагностику: плагін логує warning при відсутності Next.js Route Handler, якщо `publicUrlPrefix` не починається з `/api`.
-
-2. **Ієрархічні підрозміри O(1)**:
-   - Всі підрозміри у `doc.sizes[key]` зберігають та повертають повний шлях папки (`screenshots/recent/image-300x82.webp`) у `filename` та `url`.
-   - Підтримка лінивої генерації Sharp on-demand у `.thumbnails`.
-
-3. **Підтримка кореневих шляхів**:
-   - `publicUrlPrefix: ''` дозволяє роботу без штучного `/media`.
-
-4. **Розділення життєвих циклів (SSG vs SSR)**:
-   - **SSG**: Реалізовано функцію експорту `syncStorageToDist({ rootDir, targetDir, thumbnailsDir })` для переносу медіа та мініатюр у папку публікації (`out/`, `dist/`).
-   - **SSR / Dev**: Кешування лінивих мініатюр у `.thumbnails` з повною ізоляцією від бекапів (`backend.list()`).
-
----
-
-## 🧪 Результати Верифікації
-
-- `npm test` у `@nan0web/payload-self-storage` — **32/32 pass**.
-- `npm run build` (`tsc`) — **успішно (0 errors)**.
-- `curl -I http://localhost:3000/media/Root/yaro-logo-gray.webp` — **200 OK**.
-- `curl -I http://localhost:3000/media/Root/yaro-logo-gray-300x150.webp` — **200 OK** (генерація мініатюри на льоту).
-- Документація:
-  - `docs/uk/README.md`, `docs/en/README.md` — оновлено.
-  - `docs/uk/payload/collections/media.md`, `docs/en/payload/collections/media.md` — оновлено з описом роута.
-  - `releases/0/3/v0.3.0/` — підготовлено до релізу.
-
+Чи переходимо до процедури запечатування та публікації `@nan0web/release@3.6.0`?

@@ -23,12 +23,14 @@ import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
 import { payloadSelfStorage } from '@nan0web/payload-self-storage'
 
-export default payloadSelfStorage({
+export const withStorage = payloadSelfStorage({
   rootDir: path.resolve(process.cwd(), 'storage'),
   publicUrlPrefix: '/media',
   collections: ['media'],
   lazySizes: true,
-})(buildConfig({
+})
+
+export default withStorage(buildConfig({
   admin: {
     components: {
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
