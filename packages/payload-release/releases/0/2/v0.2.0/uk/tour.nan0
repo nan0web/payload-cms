@@ -1,0 +1,28 @@
+version: 0.2.0
+title: "Оновлення v0.2.0: Інтерактивний Тур та Релізи"
+
+steps:
+  - step: 1
+    route: "/admin"
+    target: "nav a[href*='/admin/collections/releases']"
+    title: "Розділ Релізів"
+    content: "У цьому розділі доступна історія всіх випусків, перевірка відповідності даних та статус виконання завдань."
+    position: "right"
+    action: "click"
+
+  - step: 2
+    route: "/admin/collections/releases"
+    target: ".table tr:first-child a, .cell-version a, [data-cell-field='version'] a"
+    title: "Перегляд версії"
+    content: "Натисніть на версію релізу, щоб відкрити детальний паспорт завдань та журнал аудиту."
+    position: "bottom"
+    action: "click"
+
+  - step: 3
+    route: "/admin/collections/releases/#files"
+    waitFor: ".release-preview-btn, button[title*='Preview'], button[title*='Перегляд']"
+    target: ".release-preview-btn, button[title*='Preview'], button[title*='Перегляд']"
+    title: "Швидкий перегляд специфікацій"
+    content: "Клікніть на значок перегляду, щоб у модальному вікні прочитати task.md або user.md у форматі Markdown."
+    position: "left"
+    action: "next"

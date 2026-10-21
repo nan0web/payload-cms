@@ -1,0 +1,25 @@
+{
+	"$schema": "https://unpkg.com/knip@5/schema.json",
+	"entry": [
+		"src/index.js!",
+		"src/admin.jsx!"
+	],
+	"project": [
+		"src/**/*.{js,jsx}!"
+	],
+	"ignore": [
+		"types/**/*",
+		"releases/**/*",
+		"tests/**/*",
+		"src/**/*.test.js"
+	],
+	"ignoreDependencies": [
+		"@types/react",
+		"payload",
+		"react",
+		"husky"
+	],
+	"rules": {
+		"duplicates": "off"
+	}
+}

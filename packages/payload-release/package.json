@@ -1,0 +1,61 @@
+{
+	"name": "@nan0web/payload-release",
+	"version": "0.2.0",
+	"description": "Payload CMS plugin for release tracking, idempotency, execution logs, and Markdown specification preview.",
+	"type": "module",
+	"license": "ISC",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/nan0web/payload-cms.git",
+		"directory": "packages/payload-release"
+	},
+	"bugs": {
+		"url": "https://github.com/nan0web/payload-cms/issues"
+	},
+	"homepage": "https://github.com/nan0web/payload-cms/tree/main/packages/payload-release#readme",
+	"main": "src/index.js",
+	"types": "types/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./types/index.d.ts",
+			"import": "./src/index.js"
+		},
+		"./admin": {
+			"types": "./types/admin.d.ts",
+			"import": "./src/admin.jsx"
+		}
+	},
+	"files": [
+		"src",
+		"types",
+		"docs",
+		"releases",
+		"README.md",
+		"LICENSE"
+	],
+	"scripts": {
+		"prebuild": "rm -rf types/",
+		"build": "tsc",
+		"knip": "pnpm dlx knip --production",
+		"test:releases": "node --test --test-timeout=9999 'releases/**/*.spec.js'",
+		"test": "node --test --test-timeout=9999 'tests/**/*.test.js' 'src/**/*.test.js' 'releases/**/*.spec.js'",
+		"test:e2e": "node --test --test-name-pattern=e2e",
+		"test:all": "pnpm test && pnpm build && pnpm knip",
+		"pack:check": "pnpm pack --pack-destination .artifacts",
+		"pack:local": "pnpm pack --pack-destination .artifacts",
+		"release:validate": "dilo validate packages/payload-release"
+	},
+	"peerDependencies": {
+		"@payloadcms/ui": ">=3.0.0",
+		"payload": ">=3.0.0",
+		"react": ">=18.0.0"
+	},
+	"dependencies": {
+		"@nan0web/types": "^3.4.0",
+		"markdown-it": "^14.1.0"
+	},
+	"devDependencies": {
+		"husky": "^9.1.7",
+		"knip": "^5.61.0"
+	}
+}

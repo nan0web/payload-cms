@@ -1,0 +1,28 @@
+version: 0.2.0
+title: "Update v0.2.0: Interactive Tour & Releases"
+
+steps:
+  - step: 1
+    route: "/admin"
+    target: "nav a[href*='/admin/collections/releases']"
+    title: "Releases Section"
+    content: "View all release deployments, verify database-CSV parity, and track task execution logs."
+    position: "right"
+    action: "click"
+
+  - step: 2
+    route: "/admin/collections/releases"
+    target: ".table tr:first-child a, .cell-version a, [data-cell-field='version'] a"
+    title: "Release Details"
+    content: "Click on the release version to open the comprehensive audit log and task specification."
+    position: "bottom"
+    action: "click"
+
+  - step: 3
+    route: "/admin/collections/releases/#files"
+    waitFor: ".release-preview-btn, button[title*='Preview'], button[title*='Перегляд']"
+    target: ".release-preview-btn, button[title*='Preview'], button[title*='Перегляд']"
+    title: "Instant Specification Preview"
+    content: "Click the preview icon to inspect task.md or user.md formatted in Markdown in a non-destructive modal."
+    position: "left"
+    action: "next"
