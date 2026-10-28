@@ -13,15 +13,17 @@ console.log(`
   ▶ pnpm dev:theme       Start ONLY with @nan0web/payload-signin-theme-state
   ▶ pnpm dev:keyboard    Start ONLY with @nan0web/payload-keyboard-accessibility
   ▶ pnpm dev:manual      Start ONLY with @nan0web/payload-self-manual
+  ▶ pnpm dev:mail        Start ONLY with @nan0web/payload-mail-tester
 
 🚀 Production Commands:
 
   ▶ pnpm build           Compile Next.js & Payload CMS (Type check + SSG)
-  ▶ pnpm start           Run production server (http://localhost:3000)
+  ▶ pnpm start           Run production server (http://localhost:4002 / https://payloadcms.test)
   ▶ pnpm dev:prod        Clean rebuild and fast start (Clean + Build + Start)
 
 🧪 Package Testing (TDD / Isolated):
 
+  ▶ pnpm --filter "@nan0web/payload-mail-tester" test
   ▶ pnpm --filter "@nan0web/payload-self-manual" test
   ▶ pnpm --filter "@nan0web/payload-browse-by-folder" test
   ▶ pnpm --filter "@nan0web/payload-self-storage" test

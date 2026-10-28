@@ -4,6 +4,7 @@ import { payloadSigninThemeState } from '@nan0web/payload-signin-theme-state'
 import { payloadBrowseByFolder } from '@nan0web/payload-browse-by-folder'
 import { payloadSelfManual } from '@nan0web/payload-self-manual'
 import { payloadRelease } from '@nan0web/payload-release'
+import { payloadMailTester } from '@nan0web/payload-mail-tester'
 import { basePayloadPlugins } from './basePayloadPlugins'
 
 const nan0Plugins: Array<{ id: string, plugin: Plugin }> = [
@@ -12,6 +13,7 @@ const nan0Plugins: Array<{ id: string, plugin: Plugin }> = [
   { id: 'browse-by-folder', plugin: payloadBrowseByFolder() as unknown as Plugin },
   { id: 'self-manual', plugin: payloadSelfManual() as unknown as Plugin },
   { id: 'release', plugin: payloadRelease() as unknown as Plugin },
+  { id: 'mail-tester', plugin: payloadMailTester() as unknown as Plugin },
 ]
 
 const envFilter = (process.env.PLUGINS || process.env.PLUGIN || '').trim().toLowerCase()

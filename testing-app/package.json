@@ -8,7 +8,8 @@
   "scripts": {
     "build": "cross-env NODE_OPTIONS=--no-deprecation next build",
     "postbuild": "next-sitemap --config next-sitemap.config.cjs",
-    "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
+    "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev -p ${PORT:-4002}",
+    "dev:4002": "cross-env NODE_OPTIONS=--no-deprecation next dev -p 4002",
     "dev:prod": "cross-env NODE_OPTIONS=--no-deprecation rm -rf .next && pnpm build && pnpm start",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
@@ -17,7 +18,8 @@
     "lint:fix": "cross-env NODE_OPTIONS=--no-deprecation eslint . --fix",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "reinstall": "cross-env NODE_OPTIONS=--no-deprecation rm -rf node_modules && rm pnpm-lock.yaml && pnpm --ignore-workspace install",
-    "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
+    "start": "cross-env NODE_OPTIONS=--no-deprecation next start -p ${PORT:-4002}",
+    "start:4002": "cross-env NODE_OPTIONS=--no-deprecation next start -p 4002",
     "test": "pnpm run test:int && pnpm run test:e2e",
     "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" playwright test --config=playwright.config.ts",
     "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts"
@@ -29,6 +31,7 @@
     "@nan0web/payload-signin-theme-state": "workspace:*",
     "@nan0web/payload-keyboard-accessibility": "workspace:*",
     "@nan0web/payload-release": "workspace:*",
+    "@nan0web/payload-mail-tester": "workspace:*",
     "@nan0web/types": "^3.4.0",
     "@payloadcms/admin-bar": "3.87.1",
     "@payloadcms/db-postgres": "3.87.1",

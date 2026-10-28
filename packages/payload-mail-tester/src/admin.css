@@ -1,0 +1,202 @@
+.mail-tester-container {
+  padding: 2rem 2.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: var(--font-body, system-ui, sans-serif);
+  color: var(--theme-elevation-900, #111);
+}
+
+.mail-tester-header {
+  margin-bottom: 2rem;
+}
+
+.mail-tester-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.mail-tester-desc {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--theme-elevation-600, #666);
+  line-height: 1.5;
+}
+
+.mail-tester-card {
+  background: var(--theme-elevation-50, #fff);
+  border: 1px solid var(--theme-elevation-150, #e2e8f0);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.mail-tester-card-title {
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mail-tester-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+  border-radius: 1rem;
+  text-transform: uppercase;
+}
+
+.mail-tester-badge.ready {
+  background: rgba(34, 197, 94, 0.15);
+  color: #16a34a;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.mail-tester-badge.error {
+  background: rgba(239, 68, 68, 0.15);
+  color: #dc2626;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.mail-tester-badge.mock {
+  background: rgba(245, 158, 11, 0.15);
+  color: #d97706;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.mail-tester-badge.loading {
+  background: var(--theme-elevation-100, #f1f5f9);
+  color: var(--theme-elevation-600, #64748b);
+}
+
+.mail-tester-meta-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--theme-elevation-100, #f1f5f9);
+  font-size: 0.9rem;
+}
+
+.mail-tester-meta-row:last-child {
+  border-bottom: none;
+}
+
+.mail-tester-label {
+  color: var(--theme-elevation-600, #64748b);
+  font-weight: 500;
+}
+
+.mail-tester-val {
+  font-weight: 600;
+  font-family: monospace;
+}
+
+.mail-tester-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mail-tester-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.mail-tester-input {
+  width: 100%;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.95rem;
+  border: 1px solid var(--theme-elevation-200, #cbd5e1);
+  border-radius: 0.375rem;
+  background: var(--theme-elevation-0, #fff);
+  color: inherit;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.mail-tester-input:focus {
+  border-color: var(--theme-primary-500, #0284c7);
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+}
+
+.mail-tester-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.mail-tester-btn-primary {
+  padding: 0.6rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.375rem;
+  background: var(--theme-primary-600, #0284c7);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.mail-tester-btn-primary:hover:not(:disabled) {
+  background: var(--theme-primary-700, #0369a1);
+}
+
+.mail-tester-btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.mail-tester-btn-secondary {
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: 1px solid var(--theme-elevation-200, #cbd5e1);
+  border-radius: 0.375rem;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.mail-tester-btn-secondary:hover {
+  background: var(--theme-elevation-100, #f1f5f9);
+}
+
+.mail-tester-log-box {
+  background: var(--theme-elevation-100, #1e293b);
+  color: var(--theme-elevation-900, #f8fafc);
+  border: 1px solid var(--theme-elevation-200, #334155);
+  border-radius: 0.375rem;
+  padding: 1.25rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-all;
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.mail-tester-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  color: inherit;
+  text-decoration: none;
+  font-size: 0.9rem;
+  border-radius: 0.25rem;
+  transition: background 0.15s ease;
+}
+
+.mail-tester-nav-link:hover {
+  background: var(--theme-elevation-100, rgba(0, 0, 0, 0.05));
+}

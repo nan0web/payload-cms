@@ -22,6 +22,7 @@ import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
 import { payloadSelfStorage } from '@nan0web/payload-self-storage'
+import { payloadMailAdapter } from '@nan0web/payload-mail-tester'
 
 export const withStorage = payloadSelfStorage({
   rootDir: path.resolve(process.cwd(), 'storage'),
@@ -77,6 +78,7 @@ export default withStorage(buildConfig({
   collections: [Pages, Posts, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
+  email: payloadMailAdapter(),
   plugins,
   secret: process.env.PAYLOAD_SECRET || '2d18d3d6b9d66c439fce570c',
   sharp,

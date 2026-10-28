@@ -12,6 +12,7 @@ const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
   : process.env.__NEXT_PRIVATE_ORIGIN || 'http://localhost:3000'
 
 const nextConfig: NextConfig = {
+  allowedDevOrigins: ['payloadcms.test', '*.payloadcms.test', '127.0.0.1', 'localhost'],
   transpilePackages: [
     '@nan0web/types',
     '@nan0web/payload-self-storage',
@@ -19,6 +20,8 @@ const nextConfig: NextConfig = {
     '@nan0web/payload-keyboard-accessibility',
     '@nan0web/payload-browse-by-folder',
     '@nan0web/payload-self-manual',
+    '@nan0web/payload-release',
+    '@nan0web/payload-mail-tester',
   ],
   // Temporarily required on Windows until Next.js fixes Turbopack Sass resolution.
   // See: https://github.com/vercel/next.js/issues/86431
