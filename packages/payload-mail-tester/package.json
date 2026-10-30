@@ -1,6 +1,6 @@
 {
   "name": "@nan0web/payload-mail-tester",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Universal mail adapter (sendmail / SMTP / mock) with Admin diagnostic tester for Payload CMS 3.x.",
   "type": "module",
   "license": "ISC",
@@ -23,25 +23,35 @@
     "smtp"
   ],
   "main": "src/index.js",
+  "types": "types/index.d.ts",
   "exports": {
-    ".": "./src/index.js",
-    "./admin": "./src/admin.jsx"
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./src/index.js"
+    },
+    "./admin": {
+      "types": "./types/admin.d.ts",
+      "import": "./src/admin.jsx"
+    }
   },
   "files": [
     "src",
+    "types",
     "docs",
     "releases",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
+    "prebuild": "rm -rf types/",
+    "build": "tsc",
     "knip": "pnpm dlx knip --production",
     "test:releases": "node --test --test-timeout=9999 'releases/**/*.spec.js'",
     "test": "node --test --test-timeout=9999 'tests/**/*.test.js' 'src/**/*.test.js' 'releases/**/*.spec.js'",
     "test:e2e": "node --test --test-name-pattern=e2e",
+    "test:all": "pnpm test && pnpm build && pnpm knip",
     "pack:check": "pnpm pack --pack-destination .artifacts",
-    "pack:local": "pnpm pack --pack-destination .artifacts",
-    "test:all": "pnpm test && pnpm knip"
+    "pack:local": "pnpm pack --pack-destination .artifacts"
   },
   "peerDependencies": {
     "payload": ">=3.0.0",
